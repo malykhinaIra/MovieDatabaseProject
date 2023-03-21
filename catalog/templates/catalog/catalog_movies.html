@@ -1,0 +1,174 @@
+{% extends 'main/header_layout.html' %}
+{% load static %}
+{% block title %}
+Movie Catalog
+{% endblock %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'catalog/css/catalog.css' %}">
+{% endblock %}
+{% block content %}
+<section class="list_movies">
+        <div class="container">
+            <div class="column_header">
+                <h2>Movies</h2>
+            </div>
+
+            <div class="filter-sort-container">
+                <div class="filter-container">
+                  <label for="genre-select">Filter by genre:</label>
+                  <select id="genre-select">
+                    <option value="all">All genres</option>
+                    <option value="action">Action</option>
+                    <option value="comedy">Comedy</option>
+                    <option value="drama">Drama</option>
+                    <option value="horror">Horror</option>
+                  </select>
+                </div>
+
+                <div class="sort-container">
+                  <label for="sort-select">Sort by:</label>
+                  <select id="sort-select">
+                    <option value="title-asc">Title (A-Z)</option>
+                    <option value="title-desc">Title (Z-A)</option>
+                    <option value="year-asc">Year (oldest first)</option>
+                    <option value="year-desc">Year (newest first)</option>
+                  </select>
+                </div>
+                <div>
+                    <span id="rangeValue">Year</span>
+                    <input class="range" type="range" name="" value="0" min="1950" max="2025" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)">
+                </div>
+                <script type="text/javascript">
+                    function rangeSlide(value) {
+                        document.getElementById('rangeValue').innerHTML = value;
+                    }
+                </script>
+              </div>
+
+        <div class="container">
+        <div class="list">
+                <div class="card">
+                    <div class="image">
+                        <div class="wrapper">
+                            <a class="image" href="/movie_page.html" title="Aftersun">
+                                <img class="poster" src="/images/movie-1.jpg" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
+                    <p>2022 ‧ Drama ‧ 1h 36m</p>
+                    <p class="rating">Rating: 4.5</p>
+                </div>
+                <div class="card">
+                    <div class="image">
+                        <div class="wrapper">
+                            <a class="image" href="" title="Avatar">
+                                <img class="poster" src="/images/movie-2.jpg" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="name"><a href="" title="Aftersun">Avatar</a></div>
+                    <p>2022 ‧ NF ‧ 3h 12m</p>
+                    <p class="rating">Rating: 4.5</p>
+                </div>
+                <div class="card">
+                    <div class="image">
+                        <div class="wrapper">
+                            <a class="image" href="" title="Vavilon">
+                                <img class="poster" src="/images/movie-3.jpg" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="name"><a href="" title="Aftersun">Vavilon</a></div>
+                    <p>2022 ‧ Drama ‧ 3h 12m </p>
+                    <p class="rating">Rating: 4.5</p>
+                </div>
+                <div class="card">
+                    <div class="image">
+                        <div class="wrapper">
+                            <a class="image" href="" title="Aftersun">
+                                <img class="poster" src="/images/movie-1.jpg" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
+                    <p>2022 ‧ Drama ‧ 1h 36m</p>
+                    <p class="rating">Rating: 4.5</p>
+                </div>
+                <div class="card">
+                    <div class="image">
+                        <div class="wrapper">
+                            <a class="image" href="" title="Aftersun">
+                                <img class="poster" src="/images/movie-1.jpg" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
+                    <p>2022 ‧ Drama ‧ 1h 36m</p>
+                    <p class="rating">Rating: 4.5</p>
+                </div>
+                <div class="card">
+                    <div class="image">
+                        <div class="wrapper">
+                            <a class="image" href="" title="Aftersun">
+                                <img class="poster" src="/images/movie-1.jpg" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
+                    <p>2022 ‧ Drama ‧ 1h 36m</p>
+                    <p class="rating">Rating: 4.5</p>
+                </div>
+                <div class="card">
+                    <div class="image">
+                        <div class="wrapper">
+                            <a class="image" href="" title="Aftersun">
+                                <img class="poster" src="/images/movie-1.jpg" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
+                    <p>2022 ‧ Drama ‧ 1h 36m</p>
+                    <p class="rating">Rating: 4.5</p>
+                </div>
+                <div class="card">
+                    <div class="image">
+                        <div class="wrapper">
+                            <a class="image" href="" title="Aftersun">
+                                <img class="poster" src="/images/movie-1.jpg" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
+                    <p>2022 ‧ Drama ‧ 1h 36m</p>
+                    <p class="rating">Rating: 4.5</p>
+                </div>
+                <div class="card">
+                    <div class="image">
+                        <div class="wrapper">
+                            <a class="image" href="" title="Aftersun">
+                                <img class="poster" src="/images/movie-1.jpg" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
+                    <p>2022 ‧ Drama ‧ 1h 36m</p>
+                    <p class="rating">Rating: 4.5</p>
+                </div>
+                <div class="card">
+                    <div class="image">
+                        <div class="wrapper">
+                            <a class="image" href="" title="Avatar">
+                                <img class="poster" src="/images/movie-2.jpg" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="name"><a href="" title="Aftersun">Avatar</a></div>
+                    <p>2022 ‧ Drama ‧ 1h 36m</p>
+                    <p class="rating">Rating: 4.5</p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}

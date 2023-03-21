@@ -1,0 +1,125 @@
+{% extends 'main/header_layout.html' %}
+{% load static %}
+{% block title %}
+Movie Catalog
+{% endblock %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'catalog/css/movie_page.css' %}">
+{% endblock %}
+{% block content %}
+<main>
+        <div class="container">
+            <section>
+                <div class="movie_info">
+
+                    <img class="movie" src="/images/movie-1.jpg" alt="" />
+
+                    <div class="info">
+                        <div class="title">
+                            <h2>Aftersun</h2>
+                            <div class="star-source">
+                                <svg>
+                                    <linearGradient x1="50%" y1="5.41294643%" x2="87.5527344%" y2="65.4921875%"
+                                        id="grad">
+                                        <stop stop-color="#d6a82a" offset="0%"></stop>
+                                        <stop stop-color="#f0b71c" offset="60%"></stop>
+                                        <stop stop-color="#f0b71c" offset="100%"></stop>
+                                    </linearGradient>
+                                    <symbol id="star" viewBox="153 89 106 108">
+                                        <polygon id="star-shape" stroke="url(#grad)" stroke-width="5"
+                                            fill="currentColor"
+                                            points="206 162.5 176.610737 185.45085 189.356511 150.407797 158.447174 129.54915 195.713758 130.842203 206 95 216.286242 130.842203 253.552826 129.54915 222.643489 150.407797 235.389263 185.45085">
+                                        </polygon>
+                                    </symbol>
+                                </svg>
+                            </div>
+                            <div class="star-container">
+                                <input type="radio" name="star" id="five" />
+                                <label for="five">
+                                    <svg class="star">
+                                        <use xlink:href="#star" />
+                                    </svg>
+                                </label>
+                                <input type="radio" name="star" id="four" />
+                                <label for="four">
+                                    <svg class="star">
+                                        <use xlink:href="#star" />
+                                    </svg>
+                                </label>
+                                <input type="radio" name="star" id="three" />
+                                <label for="three">
+                                    <svg class="star">
+                                        <use xlink:href="#star" />
+                                    </svg>
+                                </label>
+                                <input type="radio" name="star" id="two" />
+                                <label for="two">
+                                    <svg class="star">
+                                        <use xlink:href="#star" />
+                                    </svg>
+                                </label>
+                                <input type="radio" name="star" id="one" />
+                                <label for="one">
+                                    <svg class="star">
+                                        <use xlink:href="#star" />
+                                    </svg>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="action">
+                            <div class="add-to-likes">
+                                <a href="#" class="round-btn"><img class="icon" src="images/heart.png" alt=""></a>
+                            </div>
+                            <div class="add-to-list">
+                                <a href="#" class="round-btn"><img class="icon" src="images/save.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="movie-details">
+                            <p>Release Date: <span>MM/DD/YYYY</span></p>
+                            <p>Genre: <span>Action</span></p>
+                            <p>Director: <span>Director Name</span></p>
+                            <p>Writer: <span>Writer Name</span></p>
+                            <p>Cast: <span>Actor 1, Actor 2, Actor 3</span></p>
+                            <p class="text">Sophie reflects on the shared joy and private melancholy
+                                of a holiday she took with her father twenty years earlier. Memories
+                                real and imagined fill the gaps between as she tries to reconcile the
+                                father she knew with the man she didn't...</p>
+                          </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="reviews">
+                <h2>Reviews</h2>
+                <form>
+                    <label for="rating">Rating:</label>
+                    <select id="rating" name="rating" required>
+                        <option value="">--Select a rating--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <label for="review">Review:</label>
+                    <textarea name="review" id="review" rows="5"></textarea>
+                    <input type="submit" value="Submit">
+                </form>
+                <div class="user-reviews">
+                    <div class="review">
+                        <h3>Reviewer Name</h3>
+                        <p class="rating">Rating: 4/5</p>
+                        <p class="review-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+                            porttitor erat sed lectus fringilla, eu tincidunt risus hendrerit. Donec a nunc id ipsum
+                            congue convallis. Ut lobortis dui vel ante lobortis, nec sagittis metus dictum.</p>
+                    </div>
+                    <div class="review">
+                        <h3>Reviewer Name</h3>
+                        <p class="rating">Rating: 5/5</p>
+                        <p class="review-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam</p>
+                    </div>
+                </div>
+        </section>
+            </div>
+    </main>
+{% endblock %}

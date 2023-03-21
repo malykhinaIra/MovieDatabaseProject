@@ -1,0 +1,188 @@
+.movie {
+  width: auto;
+  height: 435px
+}
+
+section {
+  margin-top: 40px;
+}
+
+.movie_info {
+  display: flex;
+  justify-content: flex-start;
+
+
+}
+
+.title {
+  margin-bottom: 25px;
+  display: flex;
+}
+
+.info {
+  margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  cursor: pointer;
+}
+
+svg {
+  width: 26px;
+  height: 27px;
+  padding: 0.15rem;
+}
+
+
+/* hide radio buttons */
+
+input[name="star"] {
+  display: inline-block;
+  width: 0;
+  opacity: 0;
+  margin-left: -2px;
+}
+
+/* hide source svg */
+
+.star-source {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+
+/* set initial color to transparent so fill is empty*/
+
+.star {
+  color: transparent;
+  transition: color 0.2s ease-in-out;
+}
+
+
+/* set direction to row-reverse so 5th star is at the end and ~ can be used to fill all sibling stars that precede last starred element*/
+
+.star-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  margin-top: -18px;
+  margin-left: 4%;
+
+}
+
+label:hover~label .star,
+svg.star:hover,
+input[name="star"]:focus~label .star,
+input[name="star"]:checked~label .star {
+  color: #f0b71c;
+}
+
+input[name="star"]:checked+label .star {
+  animation: starred 0.5s;
+}
+
+input[name="star"]:checked+label {
+  animation: scaleup 1s;
+}
+
+@keyframes scaleup {
+  from {
+    transform: scale(1.2);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes starred {
+  from {
+    color: #f0b71c;
+  }
+
+  to {
+    color: #d6a82a;
+  }
+}
+
+.add-to-likes {
+  margin-right: 27px;
+}
+
+.round-btn {
+  height: 50px;
+  width: 50px;
+  background-color: #9ca3af;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.icon{
+  margin-left: -1px;
+    margin-top: 5px;
+    height: 50px;
+    width: 52px;
+}
+.action {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 24px;
+}
+
+.movie-details h2 {
+  margin-top: 0;
+}
+
+.movie-details p {
+  margin-bottom: 10px;
+  margin-bottom: 2px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+
+.movie-rating h2 {
+  margin-top: 0;
+}
+
+.movie-rating label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.text {
+  margin-top: 21px;
+  width: 794px;
+  height: auto;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+select{
+  height: 45px;
+}
+label {
+  font-size: 20px;
+  margin-top: 21px;
+}
+option{
+  font-size: 20px;
+}
+
+.review h3{
+  color:#000;
+  text-align: left;
+}
+
+.user-reviews{
+  margin-top: 38px;
+ 
+}
