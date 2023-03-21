@@ -7,9 +7,6 @@ body {
     background-color: white;
 }
 
-.container {
-    width: 1124px;
-}
 
 a {
     text-decoration: none;
@@ -49,6 +46,7 @@ nav {
 #headerwrap {
     width: 100%;
     background: url("../img/back.png") no-repeat;
+    background-size: cover;
     box-shadow: inset 0px 0px 40px 40px #ffffff;
     height: 295px;
     backdrop-filter: blur(5px);
