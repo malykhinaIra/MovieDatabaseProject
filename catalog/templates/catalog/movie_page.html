@@ -12,11 +12,11 @@ Movie Catalog
             <section>
                 <div class="movie_info">
 
-                    <img class="movie" src="/images/movie-1.jpg" alt="" />
+                    <img class="movie" src="movie.cover_image" alt="" />
 
                     <div class="info">
                         <div class="title">
-                            <h2>Aftersun</h2>
+                            <h2>{{movie.title}}</h2>
                             <div class="star-source">
                                 <svg>
                                     <linearGradient x1="50%" y1="5.41294643%" x2="87.5527344%" y2="65.4921875%"
@@ -75,15 +75,12 @@ Movie Catalog
                             </div>
                         </div>
                         <div class="movie-details">
-                            <p>Release Date: <span>MM/DD/YYYY</span></p>
-                            <p>Genre: <span>Action</span></p>
-                            <p>Director: <span>Director Name</span></p>
-                            <p>Writer: <span>Writer Name</span></p>
-                            <p>Cast: <span>Actor 1, Actor 2, Actor 3</span></p>
-                            <p class="text">Sophie reflects on the shared joy and private melancholy
-                                of a holiday she took with her father twenty years earlier. Memories
-                                real and imagined fill the gaps between as she tries to reconcile the
-                                father she knew with the man she didn't...</p>
+                            <p>Release Date: <span>{{movie.release_date}}</span></p>
+                            <p>Genre: <span>{% for genre in movie.genre.all %} {{genre}} ‧{% endfor %}</span></p>
+                            <p>Director: <span>{% for director in movie.director.all %} {{director}} ‧{% endfor %}</span></p>
+                            <p>Writer: <span>{% for writer in movie.writer.all %} {{writer}} ‧{% endfor %}</span></p>
+                            <p>Cast: <span>{% for actor in movie.actor.all %} {{actor}} ‧{% endfor %}</span></p>
+                            <p class="text">{{movie.description}}</p>
                           </div>
                     </div>
                 </div>
