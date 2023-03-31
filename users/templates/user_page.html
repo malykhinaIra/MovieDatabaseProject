@@ -1,10 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'main/header_layout.html' %}
+{% load static %}
+{% block title %}
+Movie Catalog
+{% endblock %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'catalog/css/movie_page.css' %}">
+{% endblock %}
+{% block content %}
+<main>
+  <div class="container">
+    <h2>Account Information</h2>
+  <section id="account-info">
+    <div class="photo">
+      <a href="#" class="round-btn"><img class="icon" src="images/user.png" alt=""></a>
+    </div>
+    <div class="info">
+    <p>Name: John Doe</p>
+    <p>Email: john.doe@example.com</p>
+    <p>Membership: Premium</p>
+  </div>
+  </section>
 
-</body>
-</html>
+  <section id="movie-list">
+    <h2>Favorite Movies</h2>
+    <ul>
+      <li><img src="" alt="Movie Title"></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Save Movies</h2>
+    <ul>
+      <li><img src="" alt="Movie Title"></li>
+    </ul>
+  </section>
+  </div>
+</main>

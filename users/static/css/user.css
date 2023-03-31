@@ -1,0 +1,65 @@
+nav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
+
+nav li {
+	margin-left: 20px;
+}
+
+nav a {
+	color: #fff;
+	text-decoration: none;
+}
+
+section {
+	padding: 20px;
+}
+
+#account-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
+
+h1, h2 {
+	margin: 18px;
+}
+p{
+    font-size: 20px;
+}
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+li {
+	margin: 10px;
+}
+
+img {
+	width: 150px;
+	height: auto;
+	border-radius: 5px;
+}
+
+.round-btn {
+    height: 124px;
+    width: 128px;
+    background-color: #9ca3af;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .icon{
+    height: 157px;
+    margin-left: -12px;
+  }
+
