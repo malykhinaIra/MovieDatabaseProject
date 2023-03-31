@@ -47,126 +47,22 @@ Movie Catalog
 
         <div class="container">
         <div class="list">
+            {% for movie in movies %}
                 <div class="card">
                     <div class="image">
                         <div class="wrapper">
-                            <a class="image" href="/movie_page.html" title="Aftersun">
-                                <img class="poster" src="/images/movie-1.jpg" alt="" />
+                            <a class="image" href="{{movie.id}}/" title="movie.cover_image">
+                                <img class="poster" src="{% static movie.cover_image %}" alt="" />
                             </a>
                         </div>
                     </div>
-                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
-                    <p>2022 ‧ Drama ‧ 1h 36m</p>
-                    <p class="rating">Rating: 4.5</p>
+                    <div class="name"><a href="" title="{{movie.title}}">{{movie.title}}</a></div>
+
+                    <p>{{movie.release_date}} ‧ {% for genre in movie.genre.all %} {{genre}} ‧{% endfor %} {{movie.runtime}}</p>
+
+                    <p class="rating">Rating: {{movie.rating}}</p>
                 </div>
-                <div class="card">
-                    <div class="image">
-                        <div class="wrapper">
-                            <a class="image" href="" title="Avatar">
-                                <img class="poster" src="/images/movie-2.jpg" alt="" />
-                            </a>
-                        </div>
-                    </div>
-                    <div class="name"><a href="" title="Aftersun">Avatar</a></div>
-                    <p>2022 ‧ NF ‧ 3h 12m</p>
-                    <p class="rating">Rating: 4.5</p>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <div class="wrapper">
-                            <a class="image" href="" title="Vavilon">
-                                <img class="poster" src="/images/movie-3.jpg" alt="" />
-                            </a>
-                        </div>
-                    </div>
-                    <div class="name"><a href="" title="Aftersun">Vavilon</a></div>
-                    <p>2022 ‧ Drama ‧ 3h 12m </p>
-                    <p class="rating">Rating: 4.5</p>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <div class="wrapper">
-                            <a class="image" href="" title="Aftersun">
-                                <img class="poster" src="/images/movie-1.jpg" alt="" />
-                            </a>
-                        </div>
-                    </div>
-                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
-                    <p>2022 ‧ Drama ‧ 1h 36m</p>
-                    <p class="rating">Rating: 4.5</p>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <div class="wrapper">
-                            <a class="image" href="" title="Aftersun">
-                                <img class="poster" src="/images/movie-1.jpg" alt="" />
-                            </a>
-                        </div>
-                    </div>
-                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
-                    <p>2022 ‧ Drama ‧ 1h 36m</p>
-                    <p class="rating">Rating: 4.5</p>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <div class="wrapper">
-                            <a class="image" href="" title="Aftersun">
-                                <img class="poster" src="/images/movie-1.jpg" alt="" />
-                            </a>
-                        </div>
-                    </div>
-                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
-                    <p>2022 ‧ Drama ‧ 1h 36m</p>
-                    <p class="rating">Rating: 4.5</p>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <div class="wrapper">
-                            <a class="image" href="" title="Aftersun">
-                                <img class="poster" src="/images/movie-1.jpg" alt="" />
-                            </a>
-                        </div>
-                    </div>
-                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
-                    <p>2022 ‧ Drama ‧ 1h 36m</p>
-                    <p class="rating">Rating: 4.5</p>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <div class="wrapper">
-                            <a class="image" href="" title="Aftersun">
-                                <img class="poster" src="/images/movie-1.jpg" alt="" />
-                            </a>
-                        </div>
-                    </div>
-                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
-                    <p>2022 ‧ Drama ‧ 1h 36m</p>
-                    <p class="rating">Rating: 4.5</p>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <div class="wrapper">
-                            <a class="image" href="" title="Aftersun">
-                                <img class="poster" src="/images/movie-1.jpg" alt="" />
-                            </a>
-                        </div>
-                    </div>
-                    <div class="name"><a href="" title="Aftersun">Aftersun</a></div>
-                    <p>2022 ‧ Drama ‧ 1h 36m</p>
-                    <p class="rating">Rating: 4.5</p>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <div class="wrapper">
-                            <a class="image" href="" title="Avatar">
-                                <img class="poster" src="/images/movie-2.jpg" alt="" />
-                            </a>
-                        </div>
-                    </div>
-                    <div class="name"><a href="" title="Aftersun">Avatar</a></div>
-                    <p>2022 ‧ Drama ‧ 1h 36m</p>
-                    <p class="rating">Rating: 4.5</p>
-                </div>
+            {% endfor %}
             </div>
         </div>
         </div>
