@@ -17,10 +17,9 @@ Movie Catalog
                   <label for="genre-select">Filter by genre:</label>
                   <select id="genre-select">
                     <option value="all">All genres</option>
-                    <option value="action">Action</option>
-                    <option value="comedy">Comedy</option>
-                    <option value="drama">Drama</option>
-                    <option value="horror">Horror</option>
+                      {% for genre in genres %}
+                    <option value="action">{{genre.name}}</option>
+                      {% endfor %}
                   </select>
                 </div>
 
@@ -57,7 +56,7 @@ Movie Catalog
                     </div>
                     <div class="name"><a href="" title="{{movie.title}}">{{movie.title}}</a></div>
 
-                    <p>{{movie.release_date}} ‧ {% for genre in movie.genre.all %} {{genre}} ‧{% endfor %} {{movie.runtime}}</p>
+                    <p>{{movie.release_date.year}} ‧ {% for genre in movie.genre.all %} {{genre}} ‧{% endfor %} {{movie.runtime}}</p>
 
                     <p class="rating">Rating: {{movie.rating}}</p>
                 </div>
