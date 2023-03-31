@@ -1,12 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from catalog.models import Movie
+from catalog.models import Movie, Genre
 
 
 def catalog(request):
     movies = Movie.objects.all()
-    return render(request, 'catalog/catalog_movies.html', {'movies': movies})
+    genres = Genre.objects.all()
+    return render(request, 'catalog/catalog_movies.html', {'movies': movies, 'genres': genres})
 
 
 def movie(request, id):
