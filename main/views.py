@@ -1,5 +1,8 @@
 from django.shortcuts import render
 
+from catalog.models import Movie
+
 
 def index(request):
-    return render(request, 'main/main.html')
+    movies = Movie.objects.all()
+    return render(request, 'main/main.html', {'movies': movies})
