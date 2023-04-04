@@ -17,5 +17,7 @@ def movie(request, id):
 
 def search(request):
     query = request.GET['query']
-    return HttpResponse(f"<h2>Search for '{query}'</h2>")
+    genres = Genre.objects.all()
+    movies = Movie.objects.filter(title__contains=query)
+    return render(request, 'catalog/catalog_movies.html', {'movies': movies, 'genres': genres})
 
