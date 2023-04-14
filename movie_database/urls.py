@@ -20,13 +20,16 @@ from catalog import views as catalog_views
 from main import views as main_views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', main_views.index, name='index'),
-    path('signup/', user_views.signup, name='signup'),
-    path('login/', user_views.login, name='login'),
-    path('search/', catalog_views.search, name='search'),
-    path('admin/', admin.site.urls),
-    path('user/', include('users.urls')),
-    path('movie/', include('catalog.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+                  path('', main_views.index, name='index'),
+                  path('signup', user_views.signup, name='signup'),
+                  path('search/', catalog_views.search, name='search'),
+                  path('admin/', admin.site.urls),
+                  path('user/', include('users.urls')),
+                  path('movie/', include('catalog.urls')),
+                  path('login', user_views.LoginUser, name='login_user'),
+                  path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
