@@ -1,22 +1,19 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 
 from users.forms import SignUpForm
 
 
 @login_required
-def user(request, username):
-    if request.user.is_authenticated:
-        return render(request, 'user_page.html', {'username': username, 'user': request.user})
-
-
-# login function
-def Login(request, username):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect('user_page.html')
+def user_profile(request, username):
+    # Get the user object based on the username parameter
+    user = User.objects.get(username=username)
+    return render(request, 'user_page.html', {'user': user})
 
 
 # login_user function
@@ -25,15 +22,16 @@ def LoginUser(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
-        if user != None:
+        if user != None and not user.is_superuser:
             login(request, user)
-            return HttpResponseRedirect(f'user/{username}')
+            return HttpResponseRedirect(reverse('user_profile', args=[username]))
         else:
-            messages.error(request, 'Enter your data correctly')
-            return HttpResponseRedirect('index')
+            return render(request, 'main/main.html', {'message':  messages.error(request, 'Enter your data correctly')})
 
 
 # logout function
+
+@login_required
 def LogoutUser(request):
     logout(request)
     request.user = None
@@ -43,13 +41,16 @@ def LogoutUser(request):
 def signup(request):
     form = SignUpForm(request.POST)
     if form.is_valid():
-        form.save()
-        username = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password1')
-        user = authenticate(username=username, password=password)
-        login(request, user)
-        return HttpResponseRedirect(f'user/{username}')
-    return HttpResponseRedirect('index')
+        try:
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect(reverse('user_profile', args=[username]))
+        except:
+            form.add_error(None, 'Error')
+    return render(request, 'main/main.html')
 
 
 def favourites(request, username):

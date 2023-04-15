@@ -11,6 +11,9 @@
             <div class="form">
                 <form action="{% url 'login_user' %}" method="POST" autocomplete="off">
                     {% csrf_token %}
+                    {% for message in messages %}
+                    <p style="color: red">{{ message }}</p>
+                            {% endfor %}
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" required/>
                     <label for="defaultForm-pass">Password:</label>
