@@ -12,36 +12,36 @@ Movie Catalog
             <div class="column_header">
                 <h2>Movies</h2>
             </div>
+<form method="post">
+{% csrf_token %}
             <div class="filter-sort-container">
                 <div class="filter-container">
                   <label for="genre-select">Filter by genre:</label>
-                  <select id="genre-select">
-                    <option value="all">All genres</option>
+
+                  <select id="genre-select" name="genre">
+                    <option value="all" selected="selected">All genres</option>
                       {% for genre in genres %}
-                    <option value="action">{{genre.name}}</option>
+                    <option value="{{genre.id}}">{{genre.name}}</option>
                       {% endfor %}
                   </select>
+
                 </div>
+
 
                 <div class="sort-container">
                   <label for="sort-select">Sort by:</label>
-                  <select id="sort-select">
-                    <option value="title-asc">Title (A-Z)</option>
-                    <option value="title-desc">Title (Z-A)</option>
-                    <option value="year-asc">Year (oldest first)</option>
-                    <option value="year-desc">Year (newest first)</option>
+                  <select id="sort-select" name="sort">
+                    <option value="title" selected="selected">Title (A-Z)</option>
+                    <option value="-title">Title (Z-A)</option>
+                    <option value="release_date">Year (oldest first)</option>
+                    <option value="-release_date">Year (newest first)</option>
                   </select>
                 </div>
-                <div>
-                    <span id="rangeValue">Year</span>
-                    <input class="range" type="range" name="" value="0" min="1950" max="2025" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)">
-                </div>
-                <script type="text/javascript">
-                    function rangeSlide(value) {
-                        document.getElementById('rangeValue').innerHTML = value;
-                    }
-                </script>
+
               </div>
+    <input type="submit" value="Шукати">
+                </form>
+
 
         <div class="container">
         <div class="list">
