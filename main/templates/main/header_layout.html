@@ -52,7 +52,8 @@
             <ul class="navbar-nav mr-auto navbar-right">
                 {% if user.is_authenticated and not user.is_superuser%}
                 <li class="nav-item">
-                    <a href="{% url 'user_profile' username=request.user.username %}" class="nav-link waves-effect">User</a>
+                    <a href="{% url 'user_profile' username=request.user.username %}"
+                       class="nav-link waves-effect">User</a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'logout' %}" class="nav-link waves-effect">Log-out</a>
@@ -75,6 +76,14 @@
 </nav>
 
 {% block content %}{% endblock %}
-
+{% for message in messages %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if message.tags == 'error'%}
+<script>
+    var m = "{{ message }}";
+    swal("Відхилено - не правильні дані", m, "error")
+</script>
+{% endif %}
+{% endfor %}
 </body>
 </html>

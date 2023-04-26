@@ -26,7 +26,7 @@ def LoginUser(request):
             login(request, user)
             return HttpResponseRedirect(reverse('user_profile', args=[username]))
         else:
-            return render(request, 'main/main.html', {'message':  messages.error(request, 'Enter your data correctly')})
+            return render(request, 'main/main.html', {'message': messages.error(request, 'Enter your data correctly')})
 
 
 # logout function
@@ -39,18 +39,22 @@ def LogoutUser(request):
 
 
 def signup(request):
-    form = SignUpForm(request.POST)
-    if form.is_valid():
-        try:
-            form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return HttpResponseRedirect(reverse('user_profile', args=[username]))
-        except:
-            form.add_error(None, 'Error')
-    return render(request, 'main/main.html')
+    form = SignUpForm()
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password1')
+                user = authenticate(username=username, password=password)
+                login(request, user)
+                return HttpResponseRedirect(reverse('user_profile', args=[username]))
+            except Exception as e:
+                form.add_error(None, "Неправильно введені дані")
+        else:
+            messages.error(request, 'Enter your data correctly')
+    return render(request, 'main/main.html', {'form': form})
 
 
 def favourites(request, username):

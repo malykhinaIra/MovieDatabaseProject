@@ -10,10 +10,13 @@
             </div>
             <div class="form">
                 <div class="card-body py-md-4">
-                    <form action="/signup" method="POST">
+                    <form action="{% url 'signup' %}" method="POST">
                         {% csrf_token %}
                         <div class="form-group">
-                            {{ signup_form.as_p }}
+                            {{signup_form.as_p}}
+                            {% for error in form.errors %}
+                            <div class="alert alert-danger">Помилка в полі {{ error }}</div>
+                            {% endfor %}
                         </div>
                         <div class="d-flex flex-row align-items-center justify-content-between">
                             <input type="submit" value="Submit"/>
