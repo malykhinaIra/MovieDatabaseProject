@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
 from users.forms import SignUpForm
 
@@ -13,7 +14,9 @@ from users.forms import SignUpForm
 def user_profile(request, username):
     # Get the user object based on the username parameter
     user = User.objects.get(username=username)
-    return render(request, 'user_page.html', {'user': user})
+    if not request.user.is_superuser:
+        return render(request, 'user_page.html', {'user': user})
+    return redirect(request.GET.get('next', 'index'))
 
 
 # login_user function
@@ -37,6 +40,19 @@ def LogoutUser(request):
     request.user = None
     return HttpResponseRedirect('')
 
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data = request.POST, user = request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request,form.user)
+            return redirect(request.GET.get('next', 'index'))
+        else:
+            return redirect('/change_password')
+    else:
+        form = PasswordChangeForm(user=request.user)
+        return render(request, 'change_password.html', {'form': form})
 
 def signup(request):
     form = SignUpForm()
@@ -57,5 +73,5 @@ def signup(request):
     return render(request, 'main/main.html', {'form': form})
 
 
-def favourites(request, username):
-    return HttpResponse(f"<h2>{username}'s favourites</h2>")
+def favourites(request, movie):
+    return HttpResponseRedirect(reverse('user_profile', args=[movie]))

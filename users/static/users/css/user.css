@@ -26,10 +26,11 @@ section {
 
 
 
-h1, h2 {
-	margin: 18px;
+.title {
+	margin-top: 15px;
+	margin-bottom: 5px;
 }
-p{
+.info p{
     font-size: 20px;
 }
 ul {
@@ -58,8 +59,14 @@ img {
     display: inline-block;
   }
 
+  .photo{
+    height: 50px;
+    width:50px;
+ }
+
   .icon{
     height: 157px;
     margin-left: -12px;
   }
+
 
