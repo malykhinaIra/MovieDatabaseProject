@@ -4,65 +4,79 @@
 Movie Catalog
 {% endblock %}
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="{% static 'catalog/css/catalog.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'catalog/css/catalog.css' %}">
 {% endblock %}
 {% block content %}
+
 <section class="list_movies">
-        <div class="container">
-            <div class="column_header">
-                <h2>Movies</h2>
+    <div class="container">
+        <div class="column_header">
+            <h2>Movies</h2>
+        </div>
+        <form action="/search" method="get">
+            <div class="row height d-flex justify-content-center align-items-center">
+                <div class="col-md-8">
+                    <div class="search">
+                        <i class="fa fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Search for a movie..." name="query"/>
+                        <button class="button-28" role="button">Search</button>
+                    </div>
+                </div>
             </div>
-<form method="post">
-{% csrf_token %}
+        </form>
+        <form method="post">
+            {% csrf_token %}
             <div class="filter-sort-container">
                 <div class="filter-container">
-                  <label for="genre-select">Filter by genre:</label>
+                    <label for="genre-select">Filter by genre:</label>
 
-                  <select id="genre-select" name="genre">
-                    <option value="all" selected="selected">All genres</option>
-                      {% for genre in genres %}
-                    <option value="{{genre.id}}">{{genre.name}}</option>
-                      {% endfor %}
-                  </select>
+                    <select id="genre-select" name="genre">
+                        <option value="all" selected="selected">All genres</option>
+                        {% for genre in genres %}
+                        <option value="{{genre.id}}">{{genre.name}}</option>
+                        {% endfor %}
+                    </select>
 
                 </div>
 
 
                 <div class="sort-container">
-                  <label for="sort-select">Sort by:</label>
-                  <select id="sort-select" name="sort">
-                    <option value="title" selected="selected">Title (A-Z)</option>
-                    <option value="-title">Title (Z-A)</option>
-                    <option value="release_date">Year (oldest first)</option>
-                    <option value="-release_date">Year (newest first)</option>
-                  </select>
+                    <label for="sort-select">Sort by:</label>
+                    <select id="sort-select" name="sort">
+                        <option value="title" selected="selected">Title (A-Z)</option>
+                        <option value="-title">Title (Z-A)</option>
+                        <option value="release_date">Year (oldest first)</option>
+                        <option value="-release_date">Year (newest first)</option>
+                    </select>
                 </div>
-
-              </div>
-    <input type="submit" value="Шукати">
-                </form>
+                <div class="sort_button">
+                    <input type="submit" value="Шукати">
+                </div>
+            </div>
+        </form>
 
 
         <div class="container">
-        <div class="list">
-            {% for movie in movies %}
+            <div class="list">
+                {% for movie in movies %}
                 <div class="card">
                     <div class="image">
                         <div class="wrapper">
                             <a class="image" href="/movie/{{movie.id}}/" title="movie.cover_image">
-                                <img class="poster" src="{% static movie.cover_image %}" alt="" />
+                                <img class="poster" src="{% static movie.cover_image %}" alt=""/>
                             </a>
                         </div>
                     </div>
                     <div class="name"><a href="" title="{{movie.title}}">{{movie.title}}</a></div>
 
-                    <p>{{movie.release_date.year}} ‧ {% for genre in movie.genre.all %} {{genre}} ‧{% endfor %} {{movie.runtime}}</p>
+                    <p>{{movie.release_date.year}} ‧ {% for genre in movie.genre.all %} {{genre}} ‧{% endfor %}
+                        {{movie.runtime}}</p>
 
                     <p class="rating">Rating: {{movie.rating}}</p>
                 </div>
-            {% endfor %}
+                {% endfor %}
             </div>
         </div>
-        </div>
-    </section>
+    </div>
+</section>
 {% endblock %}

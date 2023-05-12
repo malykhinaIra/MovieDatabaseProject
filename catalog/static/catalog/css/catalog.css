@@ -46,4 +46,21 @@
     border: 4px solid #b9b5b5;
     box-shadow: -407px 0 0 400px #9ca3af;
   }
-  
+
+  .sort_button{
+  width:126px;
+  }
+
+   .sort_button input[type="submit"] {
+    border: 0px solid #1a1a1a;
+    border-radius: 0px;
+    text-underline-offset: 6px;
+    text-decoration: underline black;
+}
+  }
+  input[type="submit"]:hover {
+    color: #fff;
+    background-color: #1a1a1a;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+  }

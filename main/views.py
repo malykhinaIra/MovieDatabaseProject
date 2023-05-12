@@ -5,6 +5,6 @@ from catalog.models import Movie
 
 
 def index(request):
-    movies = Movie.objects.all()
+    movies = Movie.objects.all().order_by('-rating').values()
     return render(request, 'main/main.html', {'movies': movies})
 

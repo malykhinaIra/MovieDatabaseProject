@@ -30,6 +30,7 @@ urlpatterns = [
                   path('user/', include('users.urls')),
                   path('movie/', include('catalog.urls')),
                   path('login', user_views.LoginUser, name='login_user'),
+                  path('change_password', user_views.change_password, name='change_password'),
                   path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

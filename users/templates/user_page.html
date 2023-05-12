@@ -4,36 +4,36 @@
 Movie Catalog
 {% endblock %}
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="{% static 'catalog/css/movie_page.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'users/css/user.css' %}">
 {% endblock %}
 {% block content %}
 <main>
-  <div class="container">
-    <h2>Account Information</h2>
-  <section id="account-info">
-    <div class="photo">
-      <a href="#" class="round-btn"><img class="icon" src="img/user.png" alt=""></a>
+    <div class="container">
+        <h2 class="title">Account Information</h2>
+        <section id="account-info">
+            <div class="photo">
+                <a href="#" class="round-btn"><img class="icon" src="{% static 'users/img/user.png' %}" alt=""></a>
+            </div>
+            <div class="info">
+                <p>Ім'я: {{user.username}}</p>
+                <p>Email: {{user.email}}</p>
+                <a href="{% url 'change_password' %}" class="nav-link waves-effect">Змінити пароль</a>
+            </div>
+        </section>
+
+        <section id="movie-list">
+            <h2>Favorite Movies</h2>
+            <ul>
+                <li><img src="" alt="Movie Title"></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Save Movies</h2>
+            <ul>
+                <li><img src="" alt="Movie Title"></li>
+            </ul>
+        </section>
     </div>
-    <div class="info">
-    <p>Name: {{user.username}}</p>
-    <p>Email: {{user.email}}</p>
-    <p>Membership: Premium</p>
-  </div>
-  </section>
-
-  <section id="movie-list">
-    <h2>Favorite Movies</h2>
-    <ul>
-      <li><img src="" alt="Movie Title"></li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Save Movies</h2>
-    <ul>
-      <li><img src="" alt="Movie Title"></li>
-    </ul>
-  </section>
-  </div>
 </main>
 {% endblock %}

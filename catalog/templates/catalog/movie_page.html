@@ -88,11 +88,16 @@ Movie Catalog
 
             <section class="reviews">
                 <h2>Reviews</h2>
+                {% if user.is_authenticated and not user.is_superuser%}
                 <form method="post">
                     {% csrf_token %}
                     {{form.as_p}}
                     <input type="submit" value="Submit">
                 </form>
+                 {% else %}
+                <a href="{% url 'login_user' %}" class="nav-link waves-effect" data-toggle="modal"
+                       data-target="#exampleModal">Увійдіть, щоб залишити відгук</a>
+                {% endif %}
                 <div class="user-reviews">
                     {% for review in reviews%}
                     <div class="review">
