@@ -34,11 +34,12 @@ def movie(request, id):
                 new_review = Review(user=request.user, movie=movie)
                 form = ReviewForm(request.POST, instance=new_review)
                 form.save()
-                form = ReviewForm()
+                form = ReviewForm
                 redirect('movie', id=id)
             except:
                 form.add_error(None, 'Error')
-    return render(request, 'catalog/movie_page.html', {'movie': movie, 'form': form, 'reviews': review, 'favs': favs, 'saved': saved})
+    return render(request, 'catalog/movie_page.html',
+                  {'movie': movie, 'form': form, 'reviews': review, 'favs': favs, 'saved': saved})
 
 
 @login_required
@@ -87,4 +88,3 @@ def search(request):
     genres = Genre.objects.all()
     movies = Movie.objects.filter(title__contains=query)
     return render(request, 'catalog/catalog_movies.html', {'movies': movies, 'genres': genres})
-
