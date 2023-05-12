@@ -66,14 +66,24 @@ Movie Catalog
                                 </label>
                             </div>
                         </div>
+                        {% if user.is_authenticated and not user.is_superuser%}
                         <div class="action">
                             <div class="add-to-likes">
-                                <a href="#" class="round-btn"><img class="icon" src="{% static 'main/img/heart.png'%}" alt=""></a>
+                                {%if favs%}
+                                <a href="remove-from-fav" class="round-btn"><img class="icon" src="{% static 'main/img/heart.png'%}" alt=""></a>
+                                {%else%}
+                                <a href="add-to-fav" class="round-btn"><img class="icon" src="{% static 'main/img/heart.png'%}" alt=""></a>
+                                {%endif%}
                             </div>
                             <div class="add-to-list">
-                                <a href="#" class="round-btn"><img class="icon" src="{% static 'main/img/save.png' %}" alt=""></a>
+                                {%if saved%}
+                                <a href="remove-from-saved" class="round-btn"><img class="icon" src="{% static 'main/img/save.png' %}" alt=""></a>
+                                {%else%}
+                                <a href="add-to-saved" class="round-btn"><img class="icon" src="{% static 'main/img/save.png' %}" alt=""></a>
+                                {%endif%}
                             </div>
                         </div>
+                        {% endif %}
                         <div class="movie-details">
                             <p>Release Date: <span>{{movie.release_date}}</span></p>
                             <p>Genre: <span>{% for genre in movie.genre.all %} {{genre}} ‧{% endfor %}</span></p>
@@ -105,6 +115,9 @@ Movie Catalog
                         <p class="rating">Rating: {{review.rating}}</p>
                         <p class="review-text">{{review.comment}}</p>
                     </div>
+                    {% if review.user == user%}
+                    <a href="delete-review/{{review.id}}" class="nav-link waves-effect">delete</a>
+                    {%endif%}
                     {%endfor%}
                 </div>
         </section>

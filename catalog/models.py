@@ -68,3 +68,12 @@ class Review(models.Model):
         return f"{self.user}"
 
 
+
+class Favourite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movies = models.ManyToManyField(Movie)
+
+
+class Saved(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movies = models.ManyToManyField(Movie)

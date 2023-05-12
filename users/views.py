@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
+from catalog.models import Favourite, Saved
 from users.forms import SignUpForm
 
 
@@ -14,8 +15,10 @@ from users.forms import SignUpForm
 def user_profile(request, username):
     # Get the user object based on the username parameter
     user = User.objects.get(username=username)
+    favs, created = Favourite.objects.get_or_create(user=user)
+    saved, created = Saved.objects.get_or_create(user=request.user)
     if not request.user.is_superuser:
-        return render(request, 'user_page.html', {'user': user})
+        return render(request, 'user_page.html', {'user': user, 'favourites': favs, 'saved': saved})
     return redirect(request.GET.get('next', 'index'))
 
 
