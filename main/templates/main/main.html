@@ -4,16 +4,16 @@
 MovieDatabase
 {% endblock %}
 {% block style %}
-   {% endblock %}
+{% endblock %}
 {% block content %}
- <div id="headerwrap">
-        <div class="container">
-            <div class="home-content">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <h1>MOVIESbase</h1>
-                    <h3>Мільйони фільмів, серіалів і людей. Досліджуйте зараз.</h3>
-                </div>
-                <form action="/search" method="get">
+<div id="headerwrap">
+    <div class="container">
+        <div class="home-content">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h1>MOVIESbase</h1>
+                <h3>Мільйони фільмів, серіалів і людей. Досліджуйте зараз.</h3>
+            </div>
+            <form action="/search" method="get">
                 <div class="row height d-flex justify-content-center align-items-center">
                     <div class="col-md-8">
                         <div class="search">
@@ -23,36 +23,35 @@ MovieDatabase
                         </div>
                     </div>
                 </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
+</div>
 
-    <section class="list_movies">
-        <div class="container">
-            <div class="column_header">
-                <h2>Trending</h2>
-            </div>
+<section class="list_movies">
+    <div class="container">
+        <div class="column_header">
+            <h2>Trending</h2>
         </div>
-        <div class="container-fluid">
-            <div class="scrolling-wrapper-flexbox">
-               {% for movie in movies %}
-                <div class="card">
-                    <div class="image">
-                        <div class="wrapper">
-                            <a class="image" href="/movie/{{movie.id}}/" title="movie.cover_image">
-                                <img class="poster" src="{% static movie.cover_image %}" alt="" />
-                            </a>
-                        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="scrolling-wrapper-flexbox">
+            {% for movie in movies %}
+            <div class="card">
+                <div class="image">
+                    <div class="wrapper">
+                        <a class="image" href="/movie/{{movie.id}}/" title="movie.cover_image">
+                            <img class="poster" src="{% static movie.cover_image %}" alt=""/>
+                        </a>
                     </div>
-                    <div class="name"><a href="" title="{{movie.title}}">{{movie.title}}</a></div>
-
-                    <p>{{movie.release_date.year}} ‧ {% for genre in movie.genre.all %} {{genre}} ‧{% endfor %} {{movie.runtime}}</p>
-
-                    <p class="rating">Rating: {{movie.rating}}</p>
                 </div>
-            {% endfor %}
+                <div class="name"><a href="" title="{{movie.title}}">{{movie.title}}</a></div>
+                <p>{{movie.release_date.year}} ‧ {{movie.genre.first}} ‧ {{movie.runtime}}</p>
+
+                <p class="rating">Rating: {{ movie.avg_rating }}/5</p>
             </div>
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
 {% endblock %}

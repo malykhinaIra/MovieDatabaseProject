@@ -1,0 +1,45 @@
+{% extends 'main/header_layout.html' %}
+{% load static %}
+{% block title %}
+Movie Catalog
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'catalog/css/movie_page.css' %}">
+{% endblock %}
+{% block content %}
+<main>
+    <div class="container">
+        <section>
+            <div class="movie_info">
+
+                <img class="movie" src="{% static actor.photo %}" alt="actor"/>
+
+                <div class="info">
+                    <div class="title">
+                        <h2>actor.name</h2>
+                        <div class="movie-details">
+                            <h2>Biography:</h2>
+                            <p>actor.biography</p>
+                             <div class="actors">
+                            <div>
+                                <h2>Known for:</h2>
+                            </div>
+                            <span>{% for movie in actor.movies.all %}
+                                <div>
+                                    <img class="movie" src="{% static movie.cover %}" alt="actor"/>
+                            <a class='cast' href=""> {{movie.title}} </a>
+
+                            {% endfor %}
+                                    </div>
+                            </span>
+
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}
