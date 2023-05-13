@@ -11,9 +11,11 @@ Movie Catalog
     <div class="container">
         <section>
             <div class="movie_info">
-
-                <img class="movie" src="{% static movie.cover_image %}" alt=""/>
-
+                <div class="movie-main">
+                    <img class="movie" src="{% static movie.cover_image %}" alt=""/>
+                    <a href="" class="nav-link waves-effect" data-toggle="modal"
+                       data-target="#"><img class="icon" src="{% static 'main/img/play.png'%}" alt=""></a>
+                </div>
                 <div class="info">
                     <div class="title">
                         <h2>{{movie.title}}</h2>
