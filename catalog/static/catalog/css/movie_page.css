@@ -1,6 +1,8 @@
+@import url('https://unpkg.com/css.gg@2.0.0/icons/css/close-r.css');
 .movie {
   width: auto;
-  height: 435px
+  height: 435px;
+  margin-bottom: 14px;
 }
 
 section {
@@ -58,9 +60,9 @@ input[name="star"] {
 
 .star {
   color: transparent;
+  color: #f0b71c;
   transition: color 0.2s ease-in-out;
 }
-
 
 /* set direction to row-reverse so 5th star is at the end and ~ can be used to fill all sibling stars that precede last starred element*/
 
@@ -70,42 +72,8 @@ input[name="star"] {
   justify-content: center;
   margin-top: -18px;
   margin-left: 4%;
+  color: #f0b71c
 
-}
-
-label:hover~label .star,
-svg.star:hover,
-input[name="star"]:focus~label .star,
-input[name="star"]:checked~label .star {
-  color: #f0b71c;
-}
-
-input[name="star"]:checked+label .star {
-  animation: starred 0.5s;
-}
-
-input[name="star"]:checked+label {
-  animation: scaleup 1s;
-}
-
-@keyframes scaleup {
-  from {
-    transform: scale(1.2);
-  }
-
-  to {
-    transform: scale(1);
-  }
-}
-
-@keyframes starred {
-  from {
-    color: #f0b71c;
-  }
-
-  to {
-    color: #d6a82a;
-  }
 }
 
 .add-to-likes {
@@ -115,7 +83,7 @@ input[name="star"]:checked+label {
 .round-btn {
   height: 50px;
   width: 50px;
-  background-color: #9ca3af;
+  background-color: #f1f1f1;;
   border-radius: 50%;
   display: inline-block;
 }
@@ -185,4 +153,52 @@ option{
 .user-reviews{
   margin-top: 38px;
  
+}
+
+.actors{
+display:flex;
+flex-direction: column;
+}
+
+ .gg-close-r {
+ box-sizing: border-box;
+ position: relative;
+ display: block;
+ transform: scale(var(--ggs,1));
+ width: 22px;
+ height: 22px;
+ border: 2px solid;
+ border-radius: 4px
+}
+
+.gg-close-r::after,
+.gg-close-r::before {
+ content: "";
+ display: block;
+ box-sizing: border-box;
+ position: absolute;
+ width: 12px;
+ height: 2px;
+ background: currentColor;
+ transform: rotate(45deg);
+ border-radius: 5px;
+ top: 8px;
+ left: 3px
+}
+
+.gg-close-r::after {
+ transform: rotate(-45deg)
+}
+
+.review-header{
+display:flex;
+justify-content: space-between;
+}
+
+.movie-main{
+display:flex;
+flex-direction:column;
+ align-items: center;
+  justify-content: center;
+
 }

@@ -50,7 +50,7 @@ Movie Catalog
                     </select>
                 </div>
                 <div class="sort_button">
-                    <input type="submit" value="Шукати">
+                    <input type="submit" value="Search">
                 </div>
             </div>
         </form>
@@ -75,6 +75,29 @@ Movie Catalog
                     <p class="rating">Rating: {{movie.rating}}</p>
                 </div>
                 {% endfor %}
+            </div>
+            {% if movies.has_other_pages %}
+            <div class="pages">
+                <ul class="pagination">
+                    {% if movies.has_previous %}
+                    <li><a href="?page={{ page.previous_page_number }}"><-</a></li>
+                    {% else %}
+                    <li class="disabled"><span></span></li>
+                    {% endif %}
+                    {% for i in movies.paginator.page_range %}
+                    {% if ucount_movie.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if movies.has_next %}
+                    <li><a href="?page={{ movies.next_page_number }}">-></a></li>
+                    {% else %}
+                    <li class="disabled"><span></span></li>
+                    {% endif %}
+                </ul>
+                {% endif %}
             </div>
         </div>
     </div>

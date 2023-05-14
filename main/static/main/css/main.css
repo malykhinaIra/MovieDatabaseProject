@@ -9,7 +9,8 @@ body {
 
 
 a {
-    text-decoration: none;
+    text-decoration: underline;
+    color: #000000;
 }
 
 h1 {
@@ -221,6 +222,7 @@ nav {
 }
 
 .name a {
+    text-decoration: none;
     font-size: 25px;
     color: rgb(22, 21, 21);
 }
@@ -326,3 +328,4 @@ nav {
   .sec-content {
     margin-top: 85%;
   }
+

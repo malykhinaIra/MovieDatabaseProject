@@ -30,10 +30,9 @@ def LoginUser(request):
         user = authenticate(username=username, password=password)
         if user != None and not user.is_superuser:
             login(request, user)
-            return HttpResponseRedirect(reverse('user_profile', args=[username]))
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         else:
             return render(request, 'main/main.html', {'message': messages.error(request, 'Enter your data correctly')})
-
 
 # logout function
 
@@ -68,7 +67,7 @@ def signup(request):
                 password = form.cleaned_data.get('password1')
                 user = authenticate(username=username, password=password)
                 login(request, user)
-                return HttpResponseRedirect(reverse('user_profile', args=[username]))
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
             except Exception as e:
                 form.add_error(None, "Неправильно введені дані")
         else:

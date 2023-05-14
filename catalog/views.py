@@ -1,4 +1,6 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Avg
 from django.shortcuts import render, redirect
 
 from catalog.forms import ReviewForm
@@ -13,7 +15,16 @@ def catalog(request):
             movies = movies.order_by(request.POST.get('sort'))
         else:
             movies = Movie.objects.filter(genre=request.POST.get('genre')).order_by(request.POST.get('sort'))
-    return render(request, 'catalog/catalog_movies.html', {'movies': movies, 'genres': genres})
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(movies, 15)
+    try:
+        count_movie = paginator.page(page)
+    except PageNotAnInteger:
+        count_movie = paginator.page(1)
+    except EmptyPage:
+        count_movie = paginator.page(paginator.num_pages)
+    return render(request, 'catalog/catalog_movies.html', {'movies': count_movie, 'genres': genres})
 
 
 def movie(request, id):
@@ -38,8 +49,11 @@ def movie(request, id):
                 redirect('movie', id=id)
             except:
                 form.add_error(None, 'Error')
+    average_rating = Review.objects.filter(movie=movie).aggregate(Avg('rating'))['rating__avg']
+
     return render(request, 'catalog/movie_page.html',
-                  {'movie': movie, 'form': form, 'reviews': review, 'favs': favs, 'saved': saved})
+                  {'movie': movie, 'form': form, 'reviews': review, 'favs': favs, 'saved': saved,
+                   'rating': range(int(average_rating))})
 
 
 @login_required

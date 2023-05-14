@@ -4,123 +4,135 @@
 Movie Catalog
 {% endblock %}
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="{% static 'catalog/css/movie_page.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'catalog/css/movie_page.css' %}">
 {% endblock %}
 {% block content %}
 <main>
-        <div class="container">
-            <section>
-                <div class="movie_info">
-
-                    <img class="movie" src="{% static movie.cover_image %}" alt="" />
-
-                    <div class="info">
-                        <div class="title">
-                            <h2>{{movie.title}}</h2>
-                            <div class="star-source">
-                                <svg>
-                                    <linearGradient x1="50%" y1="5.41294643%" x2="87.5527344%" y2="65.4921875%"
-                                        id="grad">
-                                        <stop stop-color="#d6a82a" offset="0%"></stop>
-                                        <stop stop-color="#f0b71c" offset="60%"></stop>
-                                        <stop stop-color="#f0b71c" offset="100%"></stop>
-                                    </linearGradient>
-                                    <symbol id="star" viewBox="153 89 106 108">
-                                        <polygon id="star-shape" stroke="url(#grad)" stroke-width="5"
-                                            fill="currentColor"
-                                            points="206 162.5 176.610737 185.45085 189.356511 150.407797 158.447174 129.54915 195.713758 130.842203 206 95 216.286242 130.842203 253.552826 129.54915 222.643489 150.407797 235.389263 185.45085">
-                                        </polygon>
-                                    </symbol>
+    <div class="container">
+        <section>
+            <div class="movie_info">
+                <div class="movie-main">
+                    <img class="movie" src="{% static movie.cover_image %}" alt=""/>
+                    <a href="" class="nav-link waves-effect" data-toggle="modal"
+                       data-target="#"><img class="icon" src="{% static 'main/img/play.png'%}" alt=""></a>
+                </div>
+                <div class="info">
+                    <div class="title">
+                        <h2>{{movie.title}}</h2>
+                        <div class="star-source">
+                            <svg>
+                                <linearGradient x1="50%" y1="5.41294643%" x2="87.5527344%" y2="65.4921875%"
+                                                id="grad">
+                                    <stop stop-color="#d6a82a" offset="0%"></stop>
+                                    <stop stop-color="#f0b71c" offset="60%"></stop>
+                                    <stop stop-color="#f0b71c" offset="100%"></stop>
+                                </linearGradient>
+                                <symbol id="star" viewBox="153 89 106 108">
+                                    <polygon id="star-shape" stroke="url(#grad)" stroke-width="5"
+                                             fill="currentColor"
+                                             points="206 162.5 176.610737 185.45085 189.356511 150.407797 158.447174 129.54915 195.713758 130.842203 206 95 216.286242 130.842203 253.552826 129.54915 222.643489 150.407797 235.389263 185.45085">
+                                    </polygon>
+                                </symbol>
+                            </svg>
+                        </div>
+                        <div class="star-container">
+                            <input type="radio" name="star" id="five"/>
+                            {% for i in rating %}
+                            <label for="five">
+                                <svg class="star">
+                                    <use xlink:href="#star"/>
                                 </svg>
-                            </div>
-                            <div class="star-container">
-                                <input type="radio" name="star" id="five" />
-                                <label for="five">
-                                    <svg class="star">
-                                        <use xlink:href="#star" />
-                                    </svg>
-                                </label>
-                                <input type="radio" name="star" id="four" />
-                                <label for="four">
-                                    <svg class="star">
-                                        <use xlink:href="#star" />
-                                    </svg>
-                                </label>
-                                <input type="radio" name="star" id="three" />
-                                <label for="three">
-                                    <svg class="star">
-                                        <use xlink:href="#star" />
-                                    </svg>
-                                </label>
-                                <input type="radio" name="star" id="two" />
-                                <label for="two">
-                                    <svg class="star">
-                                        <use xlink:href="#star" />
-                                    </svg>
-                                </label>
-                                <input type="radio" name="star" id="one" />
-                                <label for="one">
-                                    <svg class="star">
-                                        <use xlink:href="#star" />
-                                    </svg>
-                                </label>
-                            </div>
+                            </label>
+                            {% endfor %}
                         </div>
-                        {% if user.is_authenticated and not user.is_superuser%}
-                        <div class="action">
-                            <div class="add-to-likes">
-                                {%if favs%}
-                                <a href="remove-from-fav" class="round-btn"><img class="icon" src="{% static 'main/img/heart.png'%}" alt=""></a>
-                                {%else%}
-                                <a href="add-to-fav" class="round-btn"><img class="icon" src="{% static 'main/img/heart.png'%}" alt=""></a>
-                                {%endif%}
-                            </div>
-                            <div class="add-to-list">
-                                {%if saved%}
-                                <a href="remove-from-saved" class="round-btn"><img class="icon" src="{% static 'main/img/save.png' %}" alt=""></a>
-                                {%else%}
-                                <a href="add-to-saved" class="round-btn"><img class="icon" src="{% static 'main/img/save.png' %}" alt=""></a>
-                                {%endif%}
-                            </div>
-                        </div>
-                        {% endif %}
-                        <div class="movie-details">
-                            <p>Release Date: <span>{{movie.release_date}}</span></p>
-                            <p>Genre: <span>{% for genre in movie.genre.all %} {{genre}} ‧{% endfor %}</span></p>
-                            <p>Director: <span>{% for director in movie.director.all %} {{director}} ‧{% endfor %}</span></p>
-                            <p>Writer: <span>{% for writer in movie.writer.all %} {{writer}} ‧{% endfor %}</span></p>
-                            <p>Cast: <span>{% for actor in movie.actor.all %} {{actor}} ‧{% endfor %}</span></p>
-                            <p class="text">{{movie.description}}</p>
-                          </div>
                     </div>
-                </div>
-            </section>
+                    {% if user.is_authenticated and not user.is_superuser%}
+                    <div class="action">
+                        <div class="add-to-likes">
+                            {%if favs%}
+                            <a href="remove-from-fav" class="round-btn"><img class="icon"
+                                                                             src="{% static 'main/img/like.png'%}"
+                                                                             alt=""></a>
+                            {%else%}
+                            <a href="add-to-fav" class="round-btn"><img class="icon"
+                                                                        src="{% static 'main/img/heart.png'%}"
+                                                                        alt=""></a>
+                            {%endif%}
+                        </div>
+                        <div class="add-to-list">
+                            {%if saved%}
+                            <a href="remove-from-saved" class="round-btn"><img class="icon"
+                                                                               src="{% static 'main/img/saved.png' %}"
+                                                                               alt=""></a>
+                            {%else%}
+                            <a href="add-to-saved" class="round-btn"><img class="icon"
+                                                                          src="{% static 'main/img/save.png' %}" alt=""></a>
+                            {%endif%}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="movie-details">
+                        <p>IMDb {{movie.rating}}</p>
+                        <p>Release Date: <span>{{movie.release_date}}</span></p>
+                        <p>Genre: <span>{% for genre in movie.genre.all %} {{genre}} ‧{% endfor %}</span></p>
+                        <p>Director: <span>{% for director in movie.director.all %}
+                             <a class='cast' href=""> {{director}} </a>
+                            {% endfor %}
+                        </span>
+                        </p>
+                        <p>Writer: <span>{% for writer in movie.writer.all %}
+                             <a class='cast' href=""> {{writer}} </a>
+                            {% endfor %}
+                        </span>
+                        </p>
+                        <div class="actors">
+                            <div><p>Cast:</p></div>
+                            <span>{% for actor in movie.actor.all %}
+                                <div>
+                                    <p>img</p>
+                            <a class='cast' href=""> {{actor}} </a>
 
-            <section class="reviews">
-                <h2>Reviews</h2>
-                {% if user.is_authenticated and not user.is_superuser%}
-                <form method="post">
-                    {% csrf_token %}
-                    {{form.as_p}}
-                    <input type="submit" value="Submit">
-                </form>
-                 {% else %}
-                <a href="{% url 'login_user' %}" class="nav-link waves-effect" data-toggle="modal"
-                       data-target="#exampleModal">Увійдіть, щоб залишити відгук</a>
-                {% endif %}
-                <div class="user-reviews">
-                    {% for review in reviews%}
-                    <div class="review">
-                        <h3>{{review.user.username}}</h3>
-                        <p class="rating">Rating: {{review.rating}}</p>
-                        <p class="review-text">{{review.comment}}</p>
+                            {% endfor %}
+                                    </div>
+                            </span>
+
+                        </div>
+                        <p class="text">{{movie.description}}</p>
                     </div>
-                    {% if review.user == user%}
-                    <a href="delete-review/{{review.id}}" class="nav-link waves-effect">delete</a>
-                    {%endif%}
-                    {%endfor%}
                 </div>
-        </section>
             </div>
-    </main>
+        </section>
+
+        <section class="reviews">
+            <h2>Reviews</h2>
+            {% if user.is_authenticated and not user.is_superuser%}
+            <form method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" value="Submit">
+            </form>
+            {% else %}
+            <a href="{% url 'login_user' %}" class="nav-link waves-effect" data-toggle="modal"
+               data-target="#exampleModal">Log in to leave a review</a>
+            {% endif %}
+            <div class="user-reviews">
+                {% for review in reviews%}
+                <div class="review">
+                    <div class="review-header">
+                        <h3>{{review.user.username}}</h3>
+                        {% if review.user == user%}
+
+                        <a href="delete-review/{{review.id}}" class="nav-link waves-effect"><i
+                                class="gg-close-r"></i></a>
+                        {%endif%}
+                    </div>
+                    <p class="rating">Rating: {{review.rating}}</p>
+                    <p class="review-text">{{review.comment}}</p>
+                </div>
+
+                {%endfor%}
+            </div>
+        </section>
+    </div>
+</main>
 {% endblock %}
