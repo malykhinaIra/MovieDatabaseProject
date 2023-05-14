@@ -12,7 +12,7 @@ Movie Catalog
         <section>
             <div class="movie_info">
                 <div class="movie-main">
-                    <img class="movie" src="{% static movie.cover_image %}" alt=""/>
+                    <img class="movie" src="{% static movie.cover_image.url %}" alt=""/>
                     <a href="" class="nav-link waves-effect" data-toggle="modal"
                        data-target="#"><img class="icon" src="{% static 'main/img/play.png'%}" alt=""></a>
                 </div>
@@ -76,24 +76,24 @@ Movie Catalog
                         <p>Release Date: <span>{{movie.release_date}}</span></p>
                         <p>Genre: <span>{% for genre in movie.genre.all %} {{genre}} ‧{% endfor %}</span></p>
                         <p>Director: <span>{% for director in movie.director.all %}
-                             <a class='cast' href=""> {{director}} </a>
+                             <a class='cast' href="/movie/director-info/{{director.id}}"> {{director}} </a>
                             {% endfor %}
                         </span>
                         </p>
                         <p>Writer: <span>{% for writer in movie.writer.all %}
-                             <a class='cast' href=""> {{writer}} </a>
+                             <a class='cast' href="/movie/writer-info/{{writer.id}}"> {{writer}} </a>
                             {% endfor %}
                         </span>
                         </p>
                         <div class="actors">
                             <div><p>Cast:</p></div>
-                            <span>{% for actor in movie.actor.all %}
+                            <span>
+                                {% for actor in movie.actor.all %}
                                 <div>
-                                    <p>img</p>
-                            <a class='cast' href=""> {{actor}} </a>
-
-                            {% endfor %}
-                                    </div>
+                                    <img class="movie" src="{% static actor.image.url %}" alt="actor"/>
+                                    <a class='cast' href="/movie/actor-info/{{actor.id}}"> {{actor}} </a>
+                                </div>
+                                {% endfor %}
                             </span>
 
                         </div>

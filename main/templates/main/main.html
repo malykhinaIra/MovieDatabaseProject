@@ -11,7 +11,7 @@ MovieDatabase
         <div class="home-content">
             <div class="col-lg-8 col-lg-offset-2">
                 <h1>MOVIESbase</h1>
-                <h3>Мільйони фільмів, серіалів і людей. Досліджуйте зараз.</h3>
+                <h3>Millions of movies, series and people. Explore now.</h3>
             </div>
             <form action="/search" method="get">
                 <div class="row height d-flex justify-content-center align-items-center">
@@ -41,7 +41,7 @@ MovieDatabase
                 <div class="image">
                     <div class="wrapper">
                         <a class="image" href="/movie/{{movie.id}}/" title="movie.cover_image">
-                            <img class="poster" src="{% static movie.cover_image %}" alt=""/>
+                            <img class="poster" src="{% static movie.cover_image.url %}" alt=""/>
                         </a>
                     </div>
                 </div>

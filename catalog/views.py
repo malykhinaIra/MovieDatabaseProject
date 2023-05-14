@@ -4,7 +4,7 @@ from django.db.models import Avg
 from django.shortcuts import render, redirect
 
 from catalog.forms import ReviewForm
-from catalog.models import Movie, Genre, Review, Favourite, Saved
+from catalog.models import Movie, Genre, Review, Favourite, Saved, Actor, Director, Writer
 
 
 def catalog(request):
@@ -55,6 +55,23 @@ def movie(request, id):
                   {'movie': movie, 'form': form, 'reviews': review, 'favs': favs, 'saved': saved,
                    'rating': range(int(average_rating))})
 
+
+def actor(request, actor_id):
+    actor = Actor.objects.get(id=actor_id)
+    movies = Movie.objects.filter(actor=actor)
+    return render(request, 'catalog/actor_page.html', {'actor': actor, 'movies': movies})
+
+
+def director(request, id):
+    director = Director.objects.get(id=id)
+    movies = Movie.objects.filter(director=director)
+    return render(request, 'catalog/actor_page.html', {'actor': director, 'movies': movies})
+
+
+def writer(request, id):
+    writer = Writer.objects.get(id=id)
+    movies = Movie.objects.filter(writer=writer)
+    return render(request, 'catalog/actor_page.html', {'actor': writer, 'movies': movies})
 
 @login_required
 def delete_review(request, movie_id, review_id):

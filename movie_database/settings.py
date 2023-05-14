@@ -121,3 +121,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = 'index'
+
+MEDIA_ROOT = 'catalog/static/catalog/img/'
+MEDIA_URL = 'catalog/img/'

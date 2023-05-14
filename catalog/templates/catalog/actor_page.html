@@ -11,12 +11,11 @@ Movie Catalog
     <div class="container">
         <section>
             <div class="movie_info">
-
-                <img class="movie" src="{% static actor.photo %}" alt="actor"/>
+                <img class="movie" src="{% static actor.image.url %}" alt="actor"/>
 
                 <div class="info">
                     <div class="title">
-                        <h2>actor.name</h2>
+                        <h2>{{actor}}</h2>
                         <div class="movie-details">
                             <h2>Biography:</h2>
                             <p>actor.biography</p>
@@ -24,13 +23,13 @@ Movie Catalog
                             <div>
                                 <h2>Known for:</h2>
                             </div>
-                            <span>{% for movie in actor.movies.all %}
+                            <span>
+                                {% for movie in movies.all %}
                                 <div>
-                                    <img class="movie" src="{% static movie.cover %}" alt="actor"/>
-                            <a class='cast' href=""> {{movie.title}} </a>
-
-                            {% endfor %}
-                                    </div>
+                                    <img class="movie" src="{% static movie.cover_image.url %}" alt="actor"/>
+                                    <a class='cast' href="/movie/{{movie.id}}"> {{movie.title}} </a>
+                                </div>
+                                {% endfor %}
                             </span>
 
                         </div>
