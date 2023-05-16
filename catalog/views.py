@@ -52,11 +52,13 @@ def movie(request, id):
                 redirect('movie', id=id)
             except:
                 form.add_error(None, 'Error')
-    average_rating = Review.objects.filter(movie=movie).aggregate(Avg('rating'))['rating__avg']
+    # average_rating = Review.objects.filter(movie=movie).aggregate(Avg('rating'))['rating__avg']
 
     return render(request, 'catalog/movie_page.html',
-                  {'movie': movie, 'form': form, 'reviews': review, 'favs': favs, 'saved': saved,
-                   'rating': range(int(average_rating))})
+                  {'movie': movie, 'form': form, 'reviews': review, 'favs': favs, 'saved': saved})
+    # return render(request, 'catalog/movie_page.html',
+    #               {'movie': movie, 'form': form, 'reviews': review, 'favs': favs, 'saved': saved,
+    #                'rating': range(int(average_rating))})
 
 
 def actor(request, actor_id):

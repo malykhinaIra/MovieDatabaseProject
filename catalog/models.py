@@ -38,7 +38,6 @@ class Actor(models.Model):
     first_name = models.CharField(max_length=255, default=' ')
     last_name = models.CharField(max_length=255, default=' ')
     image = models.ImageField()
-    biography = models.TextField(max_length=1000, default=' ')
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -52,7 +51,7 @@ class Movie(models.Model):
     description = models.TextField()
     genre = models.ManyToManyField(Genre)
     rating = models.FloatField()
-    release_date = models.DateField()
+    release_date = models.CharField(max_length=255)
     runtime = models.PositiveIntegerField()
     cover_image = models.ImageField(default=' ')
     created_at = models.DateTimeField(auto_now_add=True)
