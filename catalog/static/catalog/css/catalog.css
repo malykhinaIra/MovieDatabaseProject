@@ -65,10 +65,11 @@
     transform: translateY(-2px);
   }
 
-  .pages {
+.pages {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .pagination {

@@ -197,6 +197,7 @@ nav {
     margin-right: 30px;
     background-color: white;
     border: 0;
+        width: 142px;
 }
 
 .poster {
@@ -223,7 +224,7 @@ nav {
 
 .name a {
     text-decoration: none;
-    font-size: 25px;
+    font-size: 18px;
     color: rgb(22, 21, 21);
 }
 

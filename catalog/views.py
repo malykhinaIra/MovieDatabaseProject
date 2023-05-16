@@ -20,7 +20,7 @@ def catalog(request):
             movies = Movie.objects.filter(genre=request.POST.get('genre')).order_by(request.POST.get('sort'))
     page = request.GET.get('page', 1)
 
-    paginator = Paginator(movies, 15)
+    paginator = Paginator(movies, 36)
     try:
         count_movie = paginator.page(page)
     except PageNotAnInteger:
@@ -52,13 +52,14 @@ def movie(request, id):
                 redirect('movie', id=id)
             except:
                 form.add_error(None, 'Error')
-    # average_rating = Review.objects.filter(movie=movie).aggregate(Avg('rating'))['rating__avg']
-
+    average_rating = Review.objects.filter(movie=movie).aggregate(Avg('rating'))['rating__avg']
+    if not average_rating:
+       rating = range(0)
+    else:
+        rating = range(int(average_rating))
     return render(request, 'catalog/movie_page.html',
-                  {'movie': movie, 'form': form, 'reviews': review, 'favs': favs, 'saved': saved})
-    # return render(request, 'catalog/movie_page.html',
-    #               {'movie': movie, 'form': form, 'reviews': review, 'favs': favs, 'saved': saved,
-    #                'rating': range(int(average_rating))})
+                  {'movie': movie, 'form': form, 'reviews': review, 'favs': favs, 'saved': saved,
+                   'rating': rating })
 
 
 def actor(request, actor_id):
@@ -101,7 +102,7 @@ def actor(request, actor_id):
             # Print the abstract property value
             abstract = results["results"]["bindings"][0]["abstract"]["value"]
 
-    return render(request, 'catalog/actor_page.html', {'actor': actor, 'movies': movies, 'bio': abstract})
+    return render(request, 'catalog/actor_page.html', {'actor': actor, 'movies': movies, 'bio': abstract[:1000]})
 
 
 def director(request, id):
