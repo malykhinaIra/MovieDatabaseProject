@@ -1,7 +1,7 @@
 {% extends 'main/header_layout.html' %}
 {% load static %}
 {% block title %}
-Movie Catalog
+Actor page
 {% endblock %}
 {% block style %}
 <link rel="stylesheet" type="text/css" href="{% static 'catalog/css/movie_page.css' %}">
@@ -16,27 +16,32 @@ Movie Catalog
                 <div class="info">
                     <div class="title">
                         <h2>{{actor}}</h2>
-                        <div class="movie-details">
-                            <h2>Biography:</h2>
-                            <p>actor.biography</p>
-                             <div class="actors">
-                            <div>
-                                <h2>Known for:</h2>
-                            </div>
-                            <span>
-                                {% for movie in movies.all %}
-                                <div>
-                                    <img class="movie" src="{% static movie.cover_image.url %}" alt="actor"/>
-                                    <a class='cast' href="/movie/{{movie.id}}"> {{movie.title}} </a>
+                    </div>
+                    <div class="movie-details">
+                        <h3>Biography:</h3>
+                        <p>{{actor.biography}}</p>
+                    </div>
+                    <div class="actors">
+                        <div>
+                            <h3>Known for:</h3>
+                        </div>
+                        <div class="scrolling-wrapper-flexbox">
+                            {% for movie in movies.all %}
+                            <div class="card">
+                                <div class="image">
+                                    <div class="wrapper">
+                                        <div>
+                                            <a class='cast' href="/movie/{{movie.id}}"> <img class="poster"
+                                                                                             src="{% static movie.cover_image.url %}"alt="actor"/> </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                {% endfor %}
-                            </span>
-
+                                <a href="/movie/{{movie.id}}" title="{{movie.title}}">{{movie.title}}</a>
+                            </div>
                         </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
-
             </div>
         </section>
     </div>

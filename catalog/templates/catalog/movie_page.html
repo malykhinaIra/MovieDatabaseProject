@@ -72,30 +72,42 @@ Movie Catalog
                     </div>
                     {% endif %}
                     <div class="movie-details">
-                        <p>IMDb {{movie.rating}}</p>
-                        <p>Release Date: <span>{{movie.release_date}}</span></p>
-                        <p>Genre: <span>{% for genre in movie.genre.all %} {{genre}} ‧{% endfor %}</span></p>
-                        <p>Director: <span>{% for director in movie.director.all %}
+                        <p><em>IMDb</em> {{movie.rating}}</p>
+                        <p><em>Release Date</em>: <span>{{movie.release_date}}</span></p>
+                        <p><em>Genre:</em> <span>{% for genre in movie.genre.all %} {{genre}} ‧{% endfor %}</span></p>
+                        <p><em>Director:</em> <span>{% for director in movie.director.all %}
                              <a class='cast' href="/movie/director-info/{{director.id}}"> {{director}} </a>
                             {% endfor %}
                         </span>
                         </p>
-                        <p>Writer: <span>{% for writer in movie.writer.all %}
+                        <p><em>Writer:</em> <span>{% for writer in movie.writer.all %}
                              <a class='cast' href="/movie/writer-info/{{writer.id}}"> {{writer}} </a>
                             {% endfor %}
                         </span>
                         </p>
                         <div class="actors">
                             <div><p>Cast:</p></div>
-                            <span>
+                            <div class="scrolling-wrapper-flexbox">
                                 {% for actor in movie.actor.all %}
-                                <div>
-                                    <img class="movie" src="{% static actor.image.url %}" alt="actor"/>
-                                    <a class='cast' href="/movie/actor-info/{{actor.id}}"> {{actor}} </a>
+                                <div class="card-photo">
+                                    <div class="image">
+                                        <div class="wrapper">
+                                            <div>
+                                                <a class='cast' href="/movie/actor-info/{{actor.id}}"> <img
+                                                        class="poster" src="{% static actor.image.url %}" alt="actor"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a class='cast' href="/movie/actor-info/{{actor.id}}"> {{actor}} </a>
+                                    </div>
                                 </div>
                                 {% endfor %}
-                            </span>
-
+                            </div>
+                        </div>
+                        <div class="about">
+                            <p>About:</p>
                         </div>
                         <p class="text">{{movie.description}}</p>
                     </div>

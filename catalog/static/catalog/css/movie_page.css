@@ -12,7 +12,7 @@ section {
 .movie_info {
   display: flex;
   justify-content: flex-start;
-
+align-items: flex-start;
 
 }
 
@@ -107,7 +107,7 @@ input[name="star"] {
 .movie-details p {
   margin-bottom: 10px;
   margin-bottom: 2px;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: bold;
 }
 
@@ -158,6 +158,7 @@ option{
 .actors{
 display:flex;
 flex-direction: column;
+height: 330px;
 }
 
  .gg-close-r {
@@ -201,4 +202,22 @@ flex-direction:column;
  align-items: center;
   justify-content: center;
 
+}
+
+.card-photo{
+    flex: 0 0 auto;
+    margin-right: 30px;
+    background-color: white;
+    border: 0;
+    width: 126px;
+}
+
+.info h3{
+color: black;
+    font-size: 20px;
+    font-style: oblique;
+}
+
+.about p{
+font-size:20px;
 }
