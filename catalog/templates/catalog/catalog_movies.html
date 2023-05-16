@@ -62,14 +62,14 @@ Movie Catalog
                 <div class="card">
                     <div class="image">
                         <div class="wrapper">
-                            <a class="image" href="/movie/{{movie.id}}/" title="movie.cover_image">
-                                <img class="poster" src="{% static movie.cover_image.url %}" alt=""/>
+                            <a class="image" href="/movie/{{movie.id}}/" title="{{movie.title}}.jpg">
+                                <img class="poster" src="{% static '{{movie.title}}.jpg' %}" alt=""/>
                             </a>
                         </div>
                     </div>
                     <div class="name"><a href="" title="{{movie.title}}">{{movie.title}}</a></div>
 
-                    <p>{{movie.release_date.year}} ‧ {% for genre in movie.genre.all %} {{genre}} ‧{% endfor %}
+                    <p>{{movie.release_date}} ‧ {% for genre in movie.genre.all %} {{genre}} ‧{% endfor %}
                         {{movie.runtime}}</p>
 
                     <p class="rating">Rating: {{movie.rating}}</p>
