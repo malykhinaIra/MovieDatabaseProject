@@ -2,7 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Avg
 from django.shortcuts import render, redirect
-
+from SPARQLWrapper import SPARQLWrapper, JSON
+import urllib.parse
+import requests
+import xml.etree.ElementTree as ET
 from catalog.forms import ReviewForm
 from catalog.models import Movie, Genre, Review, Favourite, Saved, Actor, Director, Writer
 
@@ -59,7 +62,44 @@ def movie(request, id):
 def actor(request, actor_id):
     actor = Actor.objects.get(id=actor_id)
     movies = Movie.objects.filter(actor=actor)
-    return render(request, 'catalog/actor_page.html', {'actor': actor, 'movies': movies})
+    abstract = 'No information'
+    # encode query for use in URL
+    encoded_query = urllib.parse.quote(actor.first_name + ' ' + actor.last_name)
+    # set DBpedia lookup API endpoint
+    url = f"https://lookup.dbpedia.org/api/search?query={encoded_query}"
+
+    # send GET request to API endpoint
+    response = requests.get(url)
+
+    # extract DBpedia URL from response XML
+    if response.status_code == 200:
+        root = ET.fromstring(response.content)
+        results = root.findall(".//Result")
+        if len(results) > 0:
+            dbpedia_url = results[0].find("URI").text
+
+            # Set up the DBpedia endpoint URL and the SPARQL query
+            endpoint_url = "https://dbpedia.org/sparql"
+            query = f"""
+            PREFIX dbo: <http://dbpedia.org/ontology/>
+            PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+            SELECT ?abstract WHERE {{
+              <{dbpedia_url}> dbo:abstract ?abstract.
+              FILTER (lang(?abstract) = 'en')
+            }}
+            """
+
+            # Send the SPARQL query to DBpedia
+            sparql = SPARQLWrapper(endpoint_url)
+            sparql.setQuery(query)
+            sparql.setReturnFormat(JSON)
+            results = sparql.query().convert()
+
+            # Print the abstract property value
+            abstract = results["results"]["bindings"][0]["abstract"]["value"]
+
+    return render(request, 'catalog/actor_page.html', {'actor': actor, 'movies': movies, 'bio': abstract})
 
 
 def director(request, id):
@@ -72,6 +112,7 @@ def writer(request, id):
     writer = Writer.objects.get(id=id)
     movies = Movie.objects.filter(writer=writer)
     return render(request, 'catalog/actor_page.html', {'actor': writer, 'movies': movies})
+
 
 @login_required
 def delete_review(request, movie_id, review_id):
