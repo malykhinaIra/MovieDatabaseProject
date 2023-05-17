@@ -13,4 +13,5 @@ urlpatterns = [
     path('<int:movie_id>/add-to-saved/', views.add_to_saved, name='add-to-saved'),
     path('<int:movie_id>/remove-from-saved/', views.remove_from_saved, name='remove-from-saved'),
     path('<int:movie_id>/delete-review/<int:review_id>/', views.delete_review, name='delete-review'),
+    path('save/', views.save, name='m'),
 ]

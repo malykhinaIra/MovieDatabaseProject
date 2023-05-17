@@ -27,22 +27,25 @@ def main():
     # create a database connection
     conn = create_connection(database)
     cur = conn.cursor()
-    cur.execute("""delete from catalog_director where id<10000;""")
+
     # insert movie records
-    with open('director.csv', 'r', encoding='utf8') as fin:
+    unique_directors = set()
+    with open('movie_data_0325.csv', 'r', encoding='utf8') as fin:
         # csv.DictReader uses first line in file for column headings by default
         to_db = []
         reader = csv.DictReader(fin)
         for row in reader:
-            dr_name = row['dr']
-            dr_id = int(row[''])
+            dr_name = row['Director']
+            if dr_name in unique_directors:
+                continue  # Пропустити режисера, якщо він вже присутній
+            unique_directors.add(dr_name)
             columns = dr_name.split(' ')
             column1 = columns[0] if columns else ''  # Перша частина колонки
             column2 = columns[1] if len(columns) > 1 else ''  # Друга частина колонки (якщо є)
-            to_db.append((dr_id, column1, column2, '/'))
+            to_db.append((column1, column2, '/', '0'))
 
-    cur.executemany("""INSERT INTO catalog_director 
-    				(id, first_name, last_name, image) 
+    cur.executemany("""INSERT INTO catalog_director
+    				(first_name, last_name, image, biography)
     				VALUES (?, ?, ?, ?);""", to_db)
     conn.commit()
     conn.close()
@@ -57,25 +60,26 @@ def actor():
     # create a database connection
     conn = create_connection(database)
     cur = conn.cursor()
-    # insert movie records
-    cur.execute("""delete from catalog_actor where id<10000;""")
 
+    # insert movie records
+    unique_directors = set()
     with open('movie_data_0325.csv', 'r', encoding='utf8') as fin:
         # csv.DictReader uses first line in file for column headings by default
         to_db = []
         reader = csv.DictReader(fin)
         for row in reader:
-            i = 0
             dr_name = row['Actor']
+            if dr_name in unique_directors:
+                continue  # Пропустити режисера, якщо він вже присутній
+            unique_directors.add(dr_name)
             columns = dr_name.split(' ')
             column1 = columns[0] if columns else ''  # Перша частина колонки
             column2 = columns[1] if len(columns) > 1 else ''  # Друга частина колонки (якщо є)
             to_db.append((column1, column2, '/'))
-            i += 1
 
-    cur.executemany("""INSERT INTO catalog_actor 
-    				(first_name, last_name, image) 
-    				VALUES (?, ?, ?);""", to_db)
+    cur.executemany("""INSERT INTO catalog_actor
+        				(first_name, last_name, image)
+        				VALUES (?, ?, ?);""", to_db)
     conn.commit()
     conn.close()
 
@@ -90,7 +94,6 @@ def genre():
     conn = create_connection(database)
     cur = conn.cursor()
     # insert movie records
-    cur.execute("""delete from catalog_genre where id<10000;""")
 
     unique_genres = set()
     with open('movie_data_0325.csv', 'r', encoding='utf8') as fin:
@@ -117,7 +120,6 @@ def movie():
     conn = create_connection(database)
     cur = conn.cursor()
     # insert movie records
-    cur.execute("""delete from catalog_movie where id<10000;""")
 
     with open('movie_data_0325.csv', 'r', encoding='utf8') as fin:
         # csv.DictReader uses first line in file for column headings by default
@@ -183,7 +185,6 @@ def movie_actor():
     # create a database connection
     conn = sqlite3.connect(database)
     cur = conn.cursor()
-    cur.execute("""delete from catalog_movie_actor where id<10000;""")
     # insert movie records
     to_db = []
     with open('movie_data_0325.csv', 'r', encoding='utf8') as fin:
@@ -253,4 +254,4 @@ def movie_genre():
     conn.close()
 
 if __name__ == '__main__':
-    movie_actor()
+    movie_genre()

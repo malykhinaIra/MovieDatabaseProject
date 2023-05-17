@@ -34,6 +34,7 @@ def catalog(request):
 
 
 def movie(request, id):
+
     movie = Movie.objects.get(id=id)
     review = Review.objects.filter(movie=movie).order_by('-created_at')
     form = ReviewForm()
@@ -210,4 +211,6 @@ def save(request):
         else:
             print(f"No image found for {actor.first_name} {actor.last_name}")
     return HttpResponse("success")
+
+
 

@@ -62,8 +62,8 @@ Movie Catalog
                 <div class="card">
                     <div class="image">
                         <div class="wrapper">
-                            <a class="image" href="/movie/{{movie.id}}/" title="{{movie.title}}.jpg">
-                                <img class="poster" src="{% static '{{movie.title}}.jpg' %}" alt=""/>
+                            <a class="image" href="/movie/{{movie.id}}/" title="{{movie.cover_image.url}}">
+                                <img class="poster" src="{%static movie.cover_image.url%}" alt=""/>
                             </a>
                         </div>
                     </div>
