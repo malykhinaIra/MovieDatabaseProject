@@ -1,10 +1,13 @@
 from django.contrib.auth.decorators import login_required
+from django.core.files import File
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Avg
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from SPARQLWrapper import SPARQLWrapper, JSON
 import urllib.parse
 import requests
+
 import xml.etree.ElementTree as ET
 from catalog.forms import ReviewForm
 from catalog.models import Movie, Genre, Review, Favourite, Saved, Actor, Director, Writer
@@ -163,3 +166,48 @@ def search(request):
     genres = Genre.objects.all()
     movies = Movie.objects.filter(title__contains=query)
     return render(request, 'catalog/catalog_movies.html', {'movies': movies, 'genres': genres})
+
+
+def save(request):
+    for actor in Actor.objects.all():
+        actor_uri = '/'
+        encoded_query = urllib.parse.quote(f"{actor.first_name} {actor.last_name}")
+        # set DBpedia lookup API endpoint
+        url = f"https://lookup.dbpedia.org/api/search?query={encoded_query}"
+
+        # send GET request to API endpoint
+        response = requests.get(url)
+
+        # extract DBpedia URL from response XML
+        if response.status_code == 200:
+            root = ET.fromstring(response.content)
+            results = root.findall(".//Result")
+            if len(results) > 0:
+                actor_uri = results[0].find("URI").text
+
+        # Set up the SPARQL endpoint
+        sparql = SPARQLWrapper('http://dbpedia.org/sparql')
+        sparql.setReturnFormat(JSON)
+
+        # Construct the SPARQL query to retrieve the image property of the resource
+        query = f'''
+                      SELECT ?image
+                      WHERE {{
+                          <{actor_uri}> dbo:thumbnail ?image .
+                      }}
+                  '''
+
+        # Execute the query and extract the image URL
+        sparql.setQuery(query)
+        results = sparql.query().convert()
+        bindings = results['results']['bindings']
+        if bindings:
+            image_url = bindings[0]['image']['value']
+            image_filename, headers = urllib.request.urlretrieve(image_url)
+            with open(image_filename, 'rb') as f:
+                image_file = File(f)
+                actor.image.save(f'{actor.first_name}_{actor.last_name}.jpg', image_file, save=True)
+        else:
+            print(f"No image found for {actor.first_name} {actor.last_name}")
+    return HttpResponse("success")
+
