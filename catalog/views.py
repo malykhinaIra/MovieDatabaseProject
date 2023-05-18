@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -6,11 +8,15 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from SPARQLWrapper import SPARQLWrapper, JSON
 import urllib.parse
+from urllib.request import urlretrieve
 import requests
 
 import xml.etree.ElementTree as ET
+
+from requests import HTTPError
+
 from catalog.forms import ReviewForm
-from catalog.models import Movie, Genre, Review, Favourite, Saved, Actor, Director, Writer
+from catalog.models import Movie, Genre, Review, Favourite, Saved, Actor, Director
 
 
 def catalog(request):
@@ -34,7 +40,6 @@ def catalog(request):
 
 
 def movie(request, id):
-
     movie = Movie.objects.get(id=id)
     review = Review.objects.filter(movie=movie).order_by('-created_at')
     form = ReviewForm()
@@ -58,67 +63,31 @@ def movie(request, id):
                 form.add_error(None, 'Error')
     average_rating = Review.objects.filter(movie=movie).aggregate(Avg('rating'))['rating__avg']
     if not average_rating:
-       rating = range(0)
+        rating = range(0)
     else:
         rating = range(int(average_rating))
     return render(request, 'catalog/movie_page.html',
                   {'movie': movie, 'form': form, 'reviews': review, 'favs': favs, 'saved': saved,
-                   'rating': rating })
+                   'rating': rating})
 
 
 def actor(request, actor_id):
     actor = Actor.objects.get(id=actor_id)
     movies = Movie.objects.filter(actor=actor)
-    abstract = 'No information'
+    abstract = get_data(actor.biography)
+    if not abstract:
+        abstract = 'no information'
     # encode query for use in URL
-    encoded_query = urllib.parse.quote(actor.first_name + ' ' + actor.last_name)
-    # set DBpedia lookup API endpoint
-    url = f"https://lookup.dbpedia.org/api/search?query={encoded_query}"
-
-    # send GET request to API endpoint
-    response = requests.get(url)
-
-    # extract DBpedia URL from response XML
-    if response.status_code == 200:
-        root = ET.fromstring(response.content)
-        results = root.findall(".//Result")
-        if len(results) > 0:
-            dbpedia_url = results[0].find("URI").text
-
-            # Set up the DBpedia endpoint URL and the SPARQL query
-            endpoint_url = "https://dbpedia.org/sparql"
-            query = f"""
-            PREFIX dbo: <http://dbpedia.org/ontology/>
-            PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-
-            SELECT ?abstract WHERE {{
-              <{dbpedia_url}> dbo:abstract ?abstract.
-              FILTER (lang(?abstract) = 'en')
-            }}
-            """
-
-            # Send the SPARQL query to DBpedia
-            sparql = SPARQLWrapper(endpoint_url)
-            sparql.setQuery(query)
-            sparql.setReturnFormat(JSON)
-            results = sparql.query().convert()
-
-            # Print the abstract property value
-            abstract = results["results"]["bindings"][0]["abstract"]["value"]
-
     return render(request, 'catalog/actor_page.html', {'actor': actor, 'movies': movies, 'bio': abstract[:1000]})
 
 
 def director(request, id):
     director = Director.objects.get(id=id)
     movies = Movie.objects.filter(director=director)
-    return render(request, 'catalog/actor_page.html', {'actor': director, 'movies': movies})
-
-
-def writer(request, id):
-    writer = Writer.objects.get(id=id)
-    movies = Movie.objects.filter(writer=writer)
-    return render(request, 'catalog/actor_page.html', {'actor': writer, 'movies': movies})
+    abstract = get_data(director.biography)
+    if not abstract:
+        abstract = 'no information'
+    return render(request, 'catalog/actor_page.html', {'actor': director, 'movies': movies, 'bio': abstract[:1000]})
 
 
 @login_required
@@ -168,49 +137,87 @@ def search(request):
     movies = Movie.objects.filter(title__contains=query)
     return render(request, 'catalog/catalog_movies.html', {'movies': movies, 'genres': genres})
 
+def get_data(url):
+    # Set up the DBpedia endpoint URL and the SPARQL query
+    endpoint_url = "https://dbpedia.org/sparql"
+    query = f"""
+               PREFIX dbo: <http://dbpedia.org/ontology/>
+               PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 
-def save(request):
-    for actor in Actor.objects.all():
-        actor_uri = '/'
-        encoded_query = urllib.parse.quote(f"{actor.first_name} {actor.last_name}")
-        # set DBpedia lookup API endpoint
-        url = f"https://lookup.dbpedia.org/api/search?query={encoded_query}"
+               SELECT ?abstract WHERE {{
+                 <{url}> dbo:abstract ?abstract.
+                 FILTER (lang(?abstract) = 'en')
+               }}
+               """
+    # Send the SPARQL query to DBpedia
+    sparql = SPARQLWrapper(endpoint_url)
+    sparql.setQuery(query)
+    sparql.setReturnFormat(JSON)
+    results = sparql.query().convert()
 
-        # send GET request to API endpoint
-        response = requests.get(url)
+    # Print the abstract property value
+    abstract = results["results"]["bindings"][0]["abstract"]["value"]
+    return abstract
 
-        # extract DBpedia URL from response XML
-        if response.status_code == 200:
-            root = ET.fromstring(response.content)
-            results = root.findall(".//Result")
-            if len(results) > 0:
-                actor_uri = results[0].find("URI").text
 
-        # Set up the SPARQL endpoint
-        sparql = SPARQLWrapper('http://dbpedia.org/sparql')
-        sparql.setReturnFormat(JSON)
-
-        # Construct the SPARQL query to retrieve the image property of the resource
-        query = f'''
-                      SELECT ?image
-                      WHERE {{
-                          <{actor_uri}> dbo:thumbnail ?image .
-                      }}
-                  '''
-
-        # Execute the query and extract the image URL
-        sparql.setQuery(query)
-        results = sparql.query().convert()
-        bindings = results['results']['bindings']
-        if bindings:
-            image_url = bindings[0]['image']['value']
-            image_filename, headers = urllib.request.urlretrieve(image_url)
-            with open(image_filename, 'rb') as f:
-                image_file = File(f)
-                actor.image.save(f'{actor.first_name}_{actor.last_name}.jpg', image_file, save=True)
-        else:
-            print(f"No image found for {actor.first_name} {actor.last_name}")
-    return HttpResponse("success")
-
+# def add_uri(request):
+#     for director in Director.objects.all():
+#         director_uri = '/'
+#         encoded_query = urllib.parse.quote(f"{director.first_name} {director.last_name}")
+#         # set DBpedia lookup API endpoint
+#         url = f"https://lookup.dbpedia.org/api/search?query={encoded_query}"
+#
+#         # send GET request to API endpoint
+#         response = requests.get(url)
+#
+#         # extract DBpedia URL from response XML
+#         if response.status_code == 200:
+#             root = ET.fromstring(response.content)
+#             results = root.findall(".//Result")
+#             if len(results) > 0:
+#                 director_uri = results[0].find("URI").text
+#
+#         director.biography = director_uri
+#         director.save()
+#     return HttpResponse("success")
+#
+# def save(request):
+#     for director in Director.objects.all():
+#         uri = get_data(director.biography)
+#         # Set up the SPARQL endpoint
+#         sparql = SPARQLWrapper('http://dbpedia.org/sparql')
+#         sparql.setReturnFormat(JSON)
+#
+#         # Construct the SPARQL query to retrieve the image property of the resource
+#         query = f'''
+#                SELECT ?image
+#                WHERE {{
+#                    <{uri}> dbo:thumbnail ?image .
+#                }}
+#            '''
+#
+#         # Execute the query and extract the image URL
+#         sparql.setQuery(query)
+#         results = sparql.query().convert()
+#         bindings = results['results']['bindings']
+#
+#         if bindings:
+#             image_url = bindings[0]['image']['value']
+#         else:
+#             image_url = ''
+#
+#         # Check if the image file already exists for the director
+#         image_path = os.path.join('img', f'{director.first_name}_{director.last_name}.jpg')
+#         if os.path.exists(image_path):
+#             continue
+#         # Download the image and save it to the Director model
+#         try:
+#             image_filename, headers = urlretrieve(image_url, image_path)
+#             with open(image_filename, 'rb') as f:
+#                 image_file = File(f)
+#                 director.image.save(f'{director.first_name}_{director.last_name}.jpg', image_file, save=True)
+#         except HTTPError as e:
+#             pass
+#     return HttpResponse("success")
 
 

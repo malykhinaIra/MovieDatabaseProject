@@ -24,20 +24,12 @@ class Director(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
-class Writer(models.Model):
-    first_name = models.CharField(max_length=255, default=' ')
-    last_name = models.CharField(max_length=255, default=' ')
-    image = models.ImageField(default=' ')
-    biography = models.TextField(max_length=1000, default=' ')
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
-
 
 class Actor(models.Model):
     first_name = models.CharField(max_length=255, default=' ')
     last_name = models.CharField(max_length=255, default=' ')
     image = models.ImageField()
+    biography = models.TextField(max_length=1000, default=' ')
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -46,7 +38,6 @@ class Actor(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=255)
     director = models.ManyToManyField(Director)
-    writer = models.ManyToManyField(Writer)
     actor = models.ManyToManyField(Actor)
     description = models.TextField()
     genre = models.ManyToManyField(Genre)

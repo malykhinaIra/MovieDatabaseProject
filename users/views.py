@@ -35,7 +35,6 @@ def LoginUser(request):
             return render(request, 'main/main.html', {'message': messages.error(request, 'Enter your data correctly')})
 
 # logout function
-
 @login_required
 def LogoutUser(request):
     logout(request)
@@ -74,6 +73,3 @@ def signup(request):
             messages.error(request, 'Enter your data correctly')
     return render(request, 'main/main.html', {'form': form})
 
-
-def favourites(request, movie):
-    return HttpResponseRedirect(reverse('user_profile', args=[movie]))
