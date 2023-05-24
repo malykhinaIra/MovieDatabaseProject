@@ -33,7 +33,10 @@ Movie Catalog
                     <select id="genre-select" name="genre">
                         <option value="all" selected="selected">All genres</option>
                         {% for genre in genres %}
-                        <option value="{{genre.id}}">{{genre.name}}</option>
+
+                        <option value="{{genre.id}}" {% if selected.genre.id == genre.id %} selected {% endif %}>
+                            {{genre.name}}
+                        </option>
                         {% endfor %}
                     </select>
 
@@ -43,10 +46,10 @@ Movie Catalog
                 <div class="sort-container">
                     <label for="sort-select">Sort by:</label>
                     <select id="sort-select" name="sort">
-                        <option value="title" selected="selected">Title (A-Z)</option>
-                        <option value="-title">Title (Z-A)</option>
-                        <option value="release_date">Year (oldest first)</option>
-                        <option value="-release_date">Year (newest first)</option>
+                        <option value="title" selected="selected" {% if selected.sort == 'title' %} selected {% endif %}>Title (A-Z)</option>
+                        <option value="-title" {% if selected.sort == '-title' %} selected {% endif %}>Title (Z-A)</option>
+                        <option value="release_date" {% if selected.sort == 'release_date' %} selected {% endif %}>Year (oldest first)</option>
+                        <option value="-release_date" {% if selected.sort == '-release_date' %} selected {% endif %}>Year (newest first)</option>
                     </select>
                 </div>
                 <div class="sort_button">

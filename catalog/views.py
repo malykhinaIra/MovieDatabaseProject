@@ -22,11 +22,14 @@ from catalog.models import Movie, Genre, Review, Favourite, Saved, Actor, Direct
 def catalog(request):
     genres = Genre.objects.all()
     movies = Movie.objects.all()
+    selected = {}
     if request.method == 'POST':
         if request.POST.get('genre') == 'all':
             movies = movies.order_by(request.POST.get('sort'))
         else:
             movies = Movie.objects.filter(genre=request.POST.get('genre')).order_by(request.POST.get('sort'))
+            selected['genre'] = Genre.objects.get(id=request.POST.get('genre'))
+            selected['sort'] = request.POST.get('sort')
     page = request.GET.get('page', 1)
 
     paginator = Paginator(movies, 36)
@@ -36,7 +39,8 @@ def catalog(request):
         count_movie = paginator.page(1)
     except EmptyPage:
         count_movie = paginator.page(paginator.num_pages)
-    return render(request, 'catalog/catalog_movies.html', {'movies': count_movie, 'genres': genres})
+    return render(request, 'catalog/catalog_movies.html', {'movies': count_movie, 'genres': genres,
+                                                           'selected': selected})
 
 
 def movie(request, id):
