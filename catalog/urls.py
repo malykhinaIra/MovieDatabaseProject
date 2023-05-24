@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.catalog, name='catalog'),
     path('<int:id>/', views.movie, name='movie'),
+    path('image/', views.image, name='image'),
     path('actor-info/<int:actor_id>/', views.actor, name='actor'),
     path('director-info/<int:id>/', views.director, name='director'),
     path('<int:movie_id>/add-to-fav/', views.add_to_fav, name='add-to-fav'),

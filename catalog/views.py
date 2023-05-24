@@ -22,6 +22,7 @@ from catalog.models import Movie, Genre, Review, Favourite, Saved, Actor, Direct
 def catalog(request):
     genres = Genre.objects.all()
     movies = Movie.objects.all()
+
     selected = {}
     if request.method == 'POST':
         if request.POST.get('genre') == 'all':
@@ -163,6 +164,30 @@ def get_data(url):
     abstract = results["results"]["bindings"][0]["abstract"]["value"]
     return abstract
 
+def image(request):
+    movies = Movie.objects.all()
+    for movie in movies:
+        movie.cover_image = movie.title.replace(' ', '_') + '.jpg'
+        movie.save()
+    folder_path = "catalog/static/catalog/img"  # Шлях до папки з фотографіями
+
+    # Отримуємо список усіх файлів у папці
+    files = os.listdir(folder_path)
+
+    # Перебираємо кожен файл у списку
+    for filename in files:
+        # Створюємо нове ім'я файлу замість пробілів використовуючи _
+        new_filename = filename.replace(" ", "_")
+
+        # Повний шлях до поточного файлу
+        current_file = os.path.join(folder_path, filename)
+
+        # Повний шлях до нового файлу
+        new_file = os.path.join(folder_path, new_filename)
+
+        # Переіменовуємо файл
+        os.rename(current_file, new_file)
+    return HttpResponse("success")
 
 # def add_uri(request):
 #     for director in Director.objects.all():
@@ -223,5 +248,4 @@ def get_data(url):
 #         except HTTPError as e:
 #             pass
 #     return HttpResponse("success")
-
 
