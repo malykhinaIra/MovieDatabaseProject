@@ -73,7 +73,7 @@ Movie Catalog
                     <div class="name"><a href="" title="{{movie.title}}">{{movie.title}}</a></div>
 
                     <p>{{movie.release_date}} ‧ {% for genre in movie.genre.all %} {{genre}} ‧{% endfor %}
-                        {{movie.runtime}}</p>
+                        {{movie.runtime}} min</p>
 
                     <p class="rating">Rating: {{movie.rating}}</p>
                 </div>
