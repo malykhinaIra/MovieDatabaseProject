@@ -4,7 +4,6 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from catalog.models import Favourite, Saved
 from users.forms import SignUpForm
@@ -22,8 +21,7 @@ class UserProfileView:
         return redirect(request.GET.get('next', 'index'))
 
 class LoginUserView:
-    @staticmethod
-    def login_user(request):
+    def login_user(self,request):
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
@@ -34,18 +32,14 @@ class LoginUserView:
             else:
                 return render(request, 'main/main.html', {'message': messages.error(request, 'Enter your data correctly')})
 
-class LogoutUserView:
-    @staticmethod
     @login_required
-    def logout_user(request):
+    def logout_user(self,request):
         logout(request)
         request.user = None
         return HttpResponseRedirect('')
 
-class ChangePasswordView:
-    @staticmethod
     @login_required
-    def change_password(request):
+    def change_password(self,request):
         if request.method == 'POST':
             form = PasswordChangeForm(data=request.POST, user=request.user)
             if form.is_valid():
@@ -58,9 +52,7 @@ class ChangePasswordView:
             form = PasswordChangeForm(user=request.user)
             return render(request, 'change_password.html', {'form': form})
 
-class SignupView:
-    @staticmethod
-    def signup(request):
+    def signup(self,request):
         form = SignUpForm()
         if request.method == 'POST':
             form = SignUpForm(request.POST)
@@ -77,3 +69,14 @@ class SignupView:
             else:
                 messages.error(request, 'Enter your data correctly')
         return render(request, 'main/main.html', {'form': form})
+
+user_views = LoginUserView()
+
+def LoginUser(request):
+    return user_views.login_user(request)
+
+def change_password(request):
+    return user_views.change_password(request)
+
+def signup(request):
+    return user_views.signup(request)
